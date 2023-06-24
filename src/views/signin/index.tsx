@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import AvoidSoftInputViewHOC from '../../common/AvoidSoftInputViewHOC';
 import LabelCircle from '../../common/LabelCircle';
@@ -11,20 +11,36 @@ import Button from '../../common/Button';
 import Input from '../../common/Input';
 import Spacer from '../../common/Spacer';
 import { AuthStackRoute } from '../../utils/constants';
+import Spinner from '../../common/Spinner';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { ISigninRequest } from '../../interface/signin/ISigninRequest';
+import { signinRequest } from '../../redux/slices/SigninSlice';
 
 const SignInPageView = (props: any) => {
   const {navigation} = props;
+  const dispatch = useAppDispatch();
+  const {requesting, success, error} = useAppSelector(state => state.Signin);
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
-  const onChangeUsernameText = (text: string) => {};
+  const onChangeUsernameText = (text: string) => {
+    setUsername(text);
+  };
 
-  const onChangePasswordText = (text: string) => {};
+  const onChangePasswordText = (text: string) => {
+    setPassword(text);
+  };
 
   const onForgotPasswordPress = useCallback(() => {
     navigation.navigate(AuthStackRoute.ForgotPassword);
   }, []);
 
   const onLoginPress = useCallback(() => {
-    //
+    const payload: ISigninRequest = {
+      username: username,
+      password: password,
+    }
+    dispatch(signinRequest(payload));
   }, []);
 
   const onSignUpPress = useCallback(() => {
@@ -58,7 +74,7 @@ const SignInPageView = (props: any) => {
           </TouchableOpacity>
         </View>
         <Spacer height={50} />
-        <Button text="LOGIN" onPress={onLoginPress} />
+        <Button text="LOGIN" onPress={onLoginPress} disabled={false} />
         <Spacer height={50} />
         <View style={styles.signupContainer}>
           <Text style={styles.dontHaveAccount}>Dont't have an account?</Text>
@@ -66,6 +82,7 @@ const SignInPageView = (props: any) => {
             <Text style={styles.signup}>SignUp</Text>
           </TouchableOpacity>
         </View>
+        <Spinner show={requesting} />
       </View>
     </AvoidSoftInputViewHOC>
   );
