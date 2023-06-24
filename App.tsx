@@ -1,22 +1,13 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import TabNavigator from './src/navigation/TabNavigator';
-import AuthStackNavigator from './src/navigation/AuthStackNavigator';
+import {AuthProvider} from './src/provider/AuthProvider';
+import Main from './src/main';
 
 const App = () => {
   return (
-    <NavigationContainer>
-      {/* <TabNavigator /> */}
-      <AuthStackNavigator />
-    </NavigationContainer>
+    <AuthProvider>
+      <Main />
+    </AuthProvider>
   );
-}
+};
 
 export default App;

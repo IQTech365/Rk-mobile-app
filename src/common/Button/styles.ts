@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-import { COLOR_BLUE, COLOR_WHITE } from '../../utils/colors';
+import { COLOR_BLUE, COLOR_WHITE, DISABLED_COLOR } from '../../utils/colors';
 const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 18,
         color: COLOR_WHITE,
+    },
+    disabled: {
+        opacity: 0.7,
     }
 });
 
