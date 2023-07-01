@@ -11,6 +11,7 @@ import VideosSlice from './slices/VideosSlice';
 import VideoSlice from './slices/VideoSlice';
 import CategoriesSlice from './slices/CategoriesSlice';
 import CategorySlice from './slices/CategorySlice';
+import MessageSlice from './slices/MessageSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
@@ -22,7 +23,8 @@ export const store = configureStore({
         Categories: CategoriesSlice,
         Category: CategorySlice,
         Videos: VideosSlice,
-        video: VideoSlice
+        video: VideoSlice,
+        Message: MessageSlice,
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware({

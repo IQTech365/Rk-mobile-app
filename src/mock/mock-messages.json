@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "message": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+        "posted_by": "user"
+    },
+    {
+        "id": 1,
+        "message": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+        "posted_by": "user"
+    },
+    {
+        "id": 1,
+        "message": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+        "posted_by": "user"
+    },
+    {
+        "id": 1,
+        "message": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        "posted_by": "admin"
+    },
+    {
+        "id": 1,
+        "message": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+        "posted_by": "admin"
+    },
+    {
+        "id": 1,
+        "message": "Lorem Ipsum is simply dummy text of the",
+        "posted_by": "user"
+    }
+]

@@ -6,3 +6,5 @@ export const CATEGORY = (id) => `/category/read/${id}`;
 export const VIDEOS = `/video/read`;
 export const VIDEO = (id) => `/video/read/${id}`;
 export const SEARCH_VIDEO = (title) => `/video/search/${title}`;
+export const SEND_MESSAGE = `/chat/create`;
+export const MESSAGES = (userId) => `/chat/read/chat/${userId}`;
