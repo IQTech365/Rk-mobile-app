@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import AvoidSoftInputViewHOC from '../../common/AvoidSoftInputViewHOC';
 import LabelCircle from '../../common/LabelCircle';
@@ -8,23 +8,28 @@ import UserIcon from '../../images/icons/user2.svg';
 import LockIcon from '../../images/icons/lock.svg';
 
 import Button from '../../common/Button';
-import Input from '../../common/Input';
+import Input, { INPUT_VALIDATION_TYPE } from '../../common/Input';
 import Spacer from '../../common/Spacer';
 import { AuthStackRoute } from '../../utils/constants';
 import Spinner from '../../common/Spinner';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ISigninRequest } from '../../interface/signin/ISigninRequest';
 import { signinRequest } from '../../redux/slices/SigninSlice';
+import { Validator } from '../../utils/validation';
+import { setAuthToken, setLoginStatus } from '../../utils/storage';
+import { useAuthContext } from '../../provider/AuthProvider';
 
 const SignInPageView = (props: any) => {
   const {navigation} = props;
   const dispatch = useAppDispatch();
-  const {requesting, success, error} = useAppSelector(state => state.Signin);
-  const [username, setUsername] = useState<string>('');
+  const authContext = useAuthContext();
+  const {setLoggedIn} = authContext;
+  const {requesting, success, error, user} = useAppSelector(state => state.Signin);
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const onChangeUsernameText = (text: string) => {
-    setUsername(text);
+  const onChangeEmailText = (text: string) => {
+    setEmail(text);
   };
 
   const onChangePasswordText = (text: string) => {
@@ -37,15 +42,29 @@ const SignInPageView = (props: any) => {
 
   const onLoginPress = useCallback(() => {
     const payload: ISigninRequest = {
-      username: username,
+      email: email,
       password: password,
     }
     dispatch(signinRequest(payload));
-  }, []);
+  }, [email, password]);
 
   const onSignUpPress = useCallback(() => {
     navigation.navigate(AuthStackRoute.SignUp);
   }, []);
+
+  const _handleSigninSuccess = async () => {
+    setAuthToken(user?.token as string); //TODO: save authToken received after singin success from api
+    await setLoginStatus('login');
+    setLoggedIn(true);
+  }
+
+  useEffect(() => {
+    if(!requesting && success && !error) {
+      _handleSigninSuccess();
+    }
+  }, [success, requesting, error]);
+
+  const disableButton = Validator.isEmpty(email) || !Validator.emailRegex(email) || Validator.isEmpty(password);
 
   return (
     <AvoidSoftInputViewHOC>
@@ -56,16 +75,18 @@ const SignInPageView = (props: any) => {
         </View>
         <Input
           icon={<UserIcon width={20} height={20} />}
-          placeholder="Username"
-          onChangeText={onChangeUsernameText}
-          error={'Username required'}
+          placeholder="Email"
+          onChangeText={onChangeEmailText}
+          required={true}
+          validationType={INPUT_VALIDATION_TYPE.EMAIL}
         />
         <Spacer />
         <Input
           icon={<LockIcon width={20} height={20} />}
           placeholder="Password"
           onChangeText={onChangePasswordText}
-          error={null}
+          required={true}
+          validationType={INPUT_VALIDATION_TYPE.TEXT}
         />
         <Spacer />
         <View style={styles.forgotPasswordContainer}>
@@ -74,7 +95,7 @@ const SignInPageView = (props: any) => {
           </TouchableOpacity>
         </View>
         <Spacer height={50} />
-        <Button text="LOGIN" onPress={onLoginPress} disabled={false} />
+        <Button text="LOGIN" onPress={onLoginPress} disabled={disableButton} />
         <Spacer height={50} />
         <View style={styles.signupContainer}>
           <Text style={styles.dontHaveAccount}>Dont't have an account?</Text>

@@ -7,6 +7,10 @@ import {rootSaga} from '../sagas';
 //Slices
 import SigninSlice from './slices/SigninSlice';
 import SignupSlice from './slices/SignupSlice';
+import VideosSlice from './slices/VideosSlice';
+import VideoSlice from './slices/VideoSlice';
+import CategoriesSlice from './slices/CategoriesSlice';
+import CategorySlice from './slices/CategorySlice';
 
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
@@ -15,9 +19,15 @@ export const store = configureStore({
     reducer: {
         Signin: SigninSlice,
         Signup: SignupSlice,
+        Categories: CategoriesSlice,
+        Category: CategorySlice,
+        Videos: VideosSlice,
+        video: VideoSlice
     },
     middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware().concat(middleware);
+        return getDefaultMiddleware({
+            serializableCheck: false
+        }).concat(middleware);
     }
 });
 

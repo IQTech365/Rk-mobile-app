@@ -9,13 +9,14 @@ import LockIcon from '../../images/icons/lock.svg';
 import EmailIcon from '../../images/icons/email.svg';
 
 import Button from '../../common/Button';
-import Input from '../../common/Input';
+import Input, { INPUT_VALIDATION_TYPE } from '../../common/Input';
 import Spacer from '../../common/Spacer';
 import { AuthStackRoute } from '../../utils/constants';
 import Spinner from '../../common/Spinner';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ISignupRequest } from '../../interface/signup/ISignupRequest';
 import { signupRequest } from '../../redux/slices/SignupSlice';
+import { Validator } from '../../utils/validation';
 
 const SignUpPageView = (props: any) => {
   const {navigation} = props;
@@ -44,12 +45,21 @@ const SignUpPageView = (props: any) => {
       password: password,
       email: email,
     }
+    console.log('signup-payload----', JSON.stringify(payload));
     dispatch(signupRequest(payload));
-  }, []);
+  }, [username, email, password]);
 
   const onSignInPress = useCallback(() => {
     navigation.navigate(AuthStackRoute.SignIn);
   }, []);
+
+  useEffect(() => {
+    if(!requesting && success && !error) {
+      navigation.navigate(AuthStackRoute.SignIn);
+    }
+  }, [success, requesting ,error]);
+
+  const disableButton = Validator.isEmpty(username) || !Validator.emailRegex(email) || Validator.isEmpty(password);
 
   return (
     <AvoidSoftInputViewHOC>
@@ -62,24 +72,27 @@ const SignUpPageView = (props: any) => {
           icon={<UserIcon width={20} height={20} />}
           placeholder="Username"
           onChangeText={onChangeUsernameText}
-          error={null}
+          required={true}
+          validationType={INPUT_VALIDATION_TYPE.TEXT}
         />
         <Spacer />
         <Input
           icon={<EmailIcon width={20} height={20} />}
           placeholder="Email"
           onChangeText={onChangeEmailText}
-          error={null}
+          required={true}
+          validationType={INPUT_VALIDATION_TYPE.EMAIL}
         />
         <Spacer />
         <Input
           icon={<LockIcon width={20} height={20} />}
           placeholder="Password"
           onChangeText={onChangePasswordText}
-          error={null}
+          required={true}
+          validationType={INPUT_VALIDATION_TYPE.TEXT} //TODO: Change validation type later for password
         />
         <Spacer height={50} />
-        <Button text="SIGNUP" onPress={onSignUpPress} disabled={false} />
+        <Button text="SIGNUP" onPress={onSignUpPress} disabled={disableButton} />
         <Spacer height={50} />
         <View style={styles.signupContainer}>
           <Text style={styles.dontHaveAccount}>You have an account?</Text>

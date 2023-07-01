@@ -5,3 +5,6 @@ export const COLOR_GRAY = '#44444c';
 export const INTRO_BG_LINEARGRADIENT = ['#373187', '#373187', '#373187', '#373187', '#764C65', '#F28021'];
 export const COLOR_ORANGE = '#F18020';
 export const DISABLED_COLOR = '#373187';
+export const COLOR_GRAY2 = '#FAFAFA';
+export const COLOR_GRAY3 = '#F2F2F2';
+export const COLOR_GRAY4 = '#737373';

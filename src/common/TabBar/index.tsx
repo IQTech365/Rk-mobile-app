@@ -21,7 +21,7 @@ const TabBar = ({state, descriptors, navigation}: any) => {
                 return <ZoomIcon width={20} height={20} color="#000000" />
             case 'Message':
                 return <MessageIcon width={20} height={20} color="#000000" />
-            case 'Menu':
+            case 'More':
                 return <MenuIcon width={20} height={20} color="#000000" />
             default:
                 return <HomeIcon width={20} height={20} color="#000000" />

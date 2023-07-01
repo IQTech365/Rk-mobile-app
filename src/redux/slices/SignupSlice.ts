@@ -1,9 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import { ISigninRequest } from '../../interface/signin/ISigninRequest';
 import { ISigninResponse } from '../../interface/signin/ISigninResponse';
+import { ISignupResponse } from '../../interface/signup/ISignupResponse';
 
 interface ISignupState {
-    user: ISigninResponse | null;
+    signupResult: ISignupResponse | null;
     requesting: boolean;
     success: boolean;
     failure: boolean;
@@ -11,7 +12,7 @@ interface ISignupState {
 }
 
 const initialState: ISignupState = {
-    user: null,
+    signupResult: null,
     requesting: false,
     success: false,
     failure: false,
@@ -25,10 +26,10 @@ export const SignupSlice = createSlice({
         signupRequest: (state, action: PayloadAction<ISigninRequest>) => {
             state.requesting = true;
         },
-        signupSuccess: (state, action: PayloadAction<ISigninResponse>) => {
+        signupSuccess: (state, action: PayloadAction<ISignupResponse>) => {
             state.requesting = false;
             state.success = true;
-            state.user = action.payload;
+            state.signupResult = action.payload;
         },
         signupFailure: (state, action: PayloadAction<any>) => {
             state.requesting = false;

@@ -15,9 +15,9 @@ const TabNavigator = () => {
         <Tab.Navigator screenOptions={{headerShown: false}} tabBar={(props) => <TabBar {...props} />}>
             <Tab.Screen name={TabRoute.HomeStack} component={HomeStackNavigator} options={{title: 'Home'}} />
             <Tab.Screen name={TabRoute.ProfileStack} component={ProfileStackNavigator} options={{title: 'Profile'}} />
-            <Tab.Screen name={TabRoute.ZoomStack} component={ZoomStackNavigator} options={{title: 'Zoom'}} />
+            {/* <Tab.Screen name={TabRoute.ZoomStack} component={ZoomStackNavigator} options={{title: 'Zoom'}} /> */}
             <Tab.Screen name={TabRoute.MessageStack} component={MessageStackNavigator} options={{title: 'Message'}} />
-            <Tab.Screen name={TabRoute.MenuStack} component={MenuStackNavigator} options={{title: 'Menu'}} />
+            <Tab.Screen name={TabRoute.MenuStack} component={MenuStackNavigator} options={{title: 'More'}} />
         </Tab.Navigator>
     );
 }
