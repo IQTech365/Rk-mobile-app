@@ -53,7 +53,8 @@ const SignInPageView = (props: any) => {
   }, []);
 
   const _handleSigninSuccess = async () => {
-    setAuthToken(user?.token as string); //TODO: save authToken received after singin success from api
+    console.log('token----', user?.token);
+    await setAuthToken(user?.token as string);
     await setLoginStatus('login');
     setLoggedIn(true);
   }

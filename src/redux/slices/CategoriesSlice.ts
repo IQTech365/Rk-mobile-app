@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import { ICategoryResponse } from '../../interface/home/ICategoryResponse';
 
 interface ICategoriesState {
-    categories: ICategoryResponse | Array<[]>;
+    data: ICategoryResponse | null;
     requesting: boolean;
     success: boolean;
     failure: boolean;
@@ -10,7 +10,7 @@ interface ICategoriesState {
 }
 
 const initialState: ICategoriesState = {
-    categories: [],
+    data: null,
     requesting: false,
     success: false,
     failure: false,
@@ -27,7 +27,7 @@ export const CategoriesSlice = createSlice({
         categoriesFetchSuccess: (state, action: PayloadAction<ICategoryResponse>) => {
             state.requesting = false;
             state.success = true;
-            state.categories = action.payload;
+            state.data = action.payload;
         },
         categoriesFetchFailure: (state, action: PayloadAction<any>) => {
             state.requesting = false;

@@ -7,6 +7,7 @@ import { categoryFetchFailure, categoryFetchSuccess, fetchCategory } from '../re
 import { IVideo, IVideoResponse } from '../interface/home/IVideoResponse';
 import { fetchVideos, videosFetchFailure, videosFetchSuccess } from '../redux/slices/VideosSlice';
 import { fetchVideo, videoFetchFailure, videoFetchSuccess } from '../redux/slices/VideoSlice';
+import { setLoginStatus } from '../utils/storage';
 
 /**
  * Category Sagas
@@ -14,8 +15,14 @@ import { fetchVideo, videoFetchFailure, videoFetchSuccess } from '../redux/slice
 export function* categoriesSaga(action: PayloadAction) {
     try {
         const response: ICategoryResponse = yield call(ContentService.fetchCategories);
+        console.log('response---22-', JSON.stringify(response));
+        if(response.message === 'invalid token') {
+            yield setLoginStatus('');
+            yield put(categoriesFetchFailure(response.message));
+        }
         yield put(categoriesFetchSuccess(response));
     } catch (error) {
+        console.log('error----', JSON.stringify(error));
         yield put(categoriesFetchFailure(error));
     }
 }

@@ -25,9 +25,10 @@ export abstract class HttpClient {
 
   private _handleRequest = async (config: AxiosRequestConfig) => {
     const authToken = await getAuthToken();
+    console.log('authToken----', authToken);
     if(authToken) {
       //@ts-ignore
-      config.headers['Authorization'] = `Bearer ${authToken}`;
+      config.headers['Authorization'] = authToken;
     }
     return config;
   } 

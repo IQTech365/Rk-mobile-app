@@ -28,11 +28,13 @@ export const AuthProvider: React.FC<{children: ReactElement}> = ({
   const fetchLoginStatus = async () => {
     setLoading(true);
     const loginStatus = await getLoginStatus();
+    console.log('loginStatus----', loginStatus);
+    
     if (loginStatus && loginStatus === 'login') {
       setLoggedIn(true);
     } else {
-      // setLoggedIn(false);
-      setLoggedIn(true);
+      setLoggedIn(false);
+      // setLoggedIn(true);
     }
     setLoading(false);
   };

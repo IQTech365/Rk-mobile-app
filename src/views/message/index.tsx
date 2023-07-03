@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, FlatList} from 'react-native';
 import AvoidSoftInputViewHOC from '../../common/AvoidSoftInputViewHOC';
 import ChatInput from '../../common/ChatInput';
@@ -10,6 +10,9 @@ import mockMessages from '../../mock/mock-messages.json';
 
 import styles from './style';
 import ChatBubble from './ChatBubble';
+import { fetchProfile } from '../../redux/slices/ProfileSlice';
+import { ISendMessage } from '../../interface/message/ISendMessage';
+import { resetSendMessage, sendMessage } from '../../redux/slices/MessageSlice';
 
 const MessagePageView = (props: any) => {
   const dispatch = useAppDispatch();
@@ -20,7 +23,7 @@ const MessagePageView = (props: any) => {
     sending,
     sendSuccess,
     sendFailure,
-    messages,
+    data,
     requesting,
     success,
     failure,
@@ -29,6 +32,17 @@ const MessagePageView = (props: any) => {
   const handleChatInputTextChange = (text: string) => {
     setMessage(text);
   };
+
+  const handleSendMessage = () => {
+    const data: ISendMessage = {userId: '', message: message};
+    dispatch(sendMessage(data));
+  }
+
+  useEffect(() => {
+    if(!sending && (sendSuccess || sendFailure)){
+      dispatch(resetSendMessage());
+    }
+  }, [sending, sendSuccess, sendFailure]);
 
   return (
     <AvoidSoftInputViewHOC>
@@ -47,6 +61,7 @@ const MessagePageView = (props: any) => {
             icon={<SendMessageIcon width={24} height={24} />}
             placeholder="Write here..."
             onChangeText={handleChatInputTextChange}
+            onPress={handleSendMessage}
           />
         </View>
         <Spinner show={sending || requesting} />

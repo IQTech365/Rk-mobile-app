@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const setLoginStatus = async (login: string | '') => {
   try {
-    await AsyncStorage.setItem('login-key', login);
+    await AsyncStorage.setItem('loginKey', login);
   } catch (error) {
     console.log('AsyncStorage Error in saving login status', error);
   }
@@ -10,7 +10,7 @@ export const setLoginStatus = async (login: string | '') => {
 
 export const getLoginStatus = async () => {
   try {
-    return await AsyncStorage.getItem('login-key');
+    return await AsyncStorage.getItem('loginKey');
   } catch (e) {
     console.log('AsyncStorage Error in fetching login status', e);
   }
@@ -18,7 +18,7 @@ export const getLoginStatus = async () => {
 
 export const setAuthToken = async (login: string | '') => {
   try {
-    await AsyncStorage.setItem('auth-token', login);
+    await AsyncStorage.setItem('authToken', login);
   } catch (error) {
     console.log('AsyncStorage Error in saving auth-token', error);
   }
@@ -26,7 +26,7 @@ export const setAuthToken = async (login: string | '') => {
 
 export const getAuthToken = async () => {
   try {
-    return await AsyncStorage.getItem('auth-token');
+    return await AsyncStorage.getItem('authToken');
   } catch (e) {
     console.log('AsyncStorage Error in fetching auth-token', e);
   }

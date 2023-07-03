@@ -3,9 +3,10 @@ import {View, TouchableOpacity} from 'react-native';
 import styles from './style';
 import {Shadow} from 'react-native-shadow-2';
 import {COLOR_BLUE, COLOR_WHITE} from '../../../../utils/colors';
+import { IVideo } from '../../../../interface/home/IVideoResponse';
 
 interface IThumbnailCardProps {
-  item: any;
+  item: IVideo;
   index: number;
   length: number;
 }

@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-import { COLOR_BLUE, COLOR_ERROR, COLOR_GRAY3, COLOR_GRAY4 } from '../../utils/colors';
+import { COLOR_ERROR, COLOR_GRAY3 } from '../../utils/colors';
 const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: COLOR_GRAY3,
+        paddingLeft: 8,
     },
     iconContainer: {
         width: '10%',

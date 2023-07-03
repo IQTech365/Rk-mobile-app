@@ -5,12 +5,14 @@ import { watcherSigninSaga } from './SigninSaga';
 import { watcherSignupSaga } from './SignupSaga';
 import { watcherContentSaga } from './ContentSaga';
 import { watcherMessageSaga } from './MessageSaga';
+import { watcherProfileSaga } from './ProfileSaga';
 
 export function* rootSaga() {
     yield all([
         fork(watcherSigninSaga),
         fork(watcherSignupSaga),
         fork(watcherContentSaga),
-        fork(watcherMessageSaga)
+        fork(watcherMessageSaga),
+        fork(watcherProfileSaga),
     ])
 }

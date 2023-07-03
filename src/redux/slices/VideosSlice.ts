@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import { IVideoResponse } from '../../interface/home/IVideoResponse';
 
 interface IVideosState {
-    videos: IVideoResponse | Array<[]>;
+    data: IVideoResponse | null;
     requesting: boolean;
     success: boolean;
     failure: boolean;
@@ -10,7 +10,7 @@ interface IVideosState {
 }
 
 const initialState: IVideosState = {
-    videos: [],
+    data: null,
     requesting: false,
     success: false,
     failure: false,
@@ -27,7 +27,7 @@ export const VideosSlice = createSlice({
         videosFetchSuccess: (state, action: PayloadAction<IVideoResponse>) => {
             state.requesting = false;
             state.success = true;
-            state.videos = action.payload;
+            state.data = action.payload;
         },
         videosFetchFailure: (state, action: PayloadAction<any>) => {
             state.requesting = false;

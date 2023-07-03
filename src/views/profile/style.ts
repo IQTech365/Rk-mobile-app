@@ -16,10 +16,7 @@ const styles = StyleSheet.create({
     },
     topContainer: {
         width: width,
-        height: 300,
-        // backgroundColor: COLOR_BLUE,
-        // flexDirection: 'column',
-        // justifyContent: 'space-between'
+        height: 200,
     },
     waveContainer: {
         width: width,
@@ -58,6 +55,17 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 50,
         backgroundColor: COLOR_WHITE,
+        alignItems: 'center',
+        justifyContent: 'center',
+
+    },
+    avatarImage: {
+        width: 90,
+        height: 90,
+        borderRadius: 45,
+        // backgroundColor: COLOR_WHITE,
+        alignItems: 'center',
+        justifyContent: 'center',
 
     },
     contentContainer: {
@@ -77,8 +85,16 @@ const styles = StyleSheet.create({
     buttonContainer: {
         width: width,
         alignItems: 'center',
-        marginTop: 40
+        marginVertical: 20
     },
+    editIconContainer: {
+        width: width * 0.9,
+        alignSelf: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 8,
+    }
 });
 
 export default styles;

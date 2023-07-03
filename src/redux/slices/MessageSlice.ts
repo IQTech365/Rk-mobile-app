@@ -1,9 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {IMessage} from '../../interface/message/IMessage';
+import { IMessageResponse } from '../../interface/message/IMessageResponse';
 import {ISendMessage} from '../../interface/message/ISendMessage';
 
 interface IMessageState {
-  messages: Array<IMessage> | [];
+  data: IMessageResponse | null;
   requesting: boolean;
   success: boolean;
   failure: boolean;
@@ -14,7 +15,7 @@ interface IMessageState {
 }
 
 const initialState: IMessageState = {
-  messages: [],
+  data: null,
   requesting: false,
   success: false,
   failure: false,
@@ -44,10 +45,10 @@ export const MessageSlice = createSlice({
     fetchMessages: (state, action: PayloadAction<string>) => {
       state.requesting = true;
     },
-    fetchMessagesSuccess: (state, action: PayloadAction<Array<IMessage>>) => {
+    fetchMessagesSuccess: (state, action: PayloadAction<IMessageResponse>) => {
       state.requesting = false;
       state.success = true;
-      state.messages = action.payload;
+      state.data = action.payload;
     },
     fetchMessagesFailure: (state, action: PayloadAction<any>) => {
       state.requesting = false;
@@ -55,6 +56,11 @@ export const MessageSlice = createSlice({
       state.failure = true;
       state.error = action.payload;
     },
+    resetSendMessage: (state) => {
+      state.sending = false;
+      state.sendSuccess = false;
+      state.sendFailure = false;
+    }
   },
 });
 
@@ -67,4 +73,5 @@ export const {
   fetchMessages,
   fetchMessagesSuccess,
   fetchMessagesFailure,
+  resetSendMessage,
 } = MessageSlice.actions;
