@@ -1,6 +1,7 @@
 import {AxiosResponse} from 'axios';
 import {Api} from '../http/Api';
-import {CATEGORIES, CATEGORY, SEARCH_VIDEO, VIDEO, VIDEOS} from '../http/Endpoint';
+import {BANNER, CATEGORIES, CATEGORY, SEARCH_VIDEO, VIDEO, VIDEOS} from '../http/Endpoint';
+import { IBannerResponse } from '../interface/home/IBannerResponse';
 import { ICategory, ICategoryResponse } from '../interface/home/ICategoryResponse';
 import { IVideo, IVideoResponse } from '../interface/home/IVideoResponse';
 
@@ -29,4 +30,10 @@ export const fetchVideo = async (id: string): Promise<IVideo> => {
 export const searchVideos = async (title: string): Promise<IVideoResponse> => {
     const api = Api.getInstance();
     return await api.get<IVideoResponse>(SEARCH_VIDEO(title));
+}
+
+// **** Banner Api's ****
+export const fetchBanners = async (): Promise<IBannerResponse> => {
+    const api = Api.getInstance();
+    return await api.get<IBannerResponse>(BANNER);
 }

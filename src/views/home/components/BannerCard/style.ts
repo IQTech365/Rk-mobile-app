@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-import { COLOR_BLUE, COLOR_GRAY, COLOR_ORANGE, COLOR_WHITE } from '../../../../utils/colors';
+import { COLOR_WHITE } from '../../../../utils/colors';
 const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -13,6 +13,11 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_WHITE,
         borderRadius: 8,
     },
+    banner: {
+        width: width * 0.7,
+        height: 120,
+        borderRadius: 8,
+    }
 });
 
 export default styles;

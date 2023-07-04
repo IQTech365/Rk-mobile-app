@@ -8,10 +8,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     cardContainer: {
-        width: width * 0.8,
+        width: width * 0.6,
         height: 140,
         backgroundColor: COLOR_WHITE,
         borderRadius: 8,
+    },
+    video: {
+        width: width * 0.6,
+        height: 140,
+        borderRadius: 8, 
+    },
+    playButtonContainer: {
+        position: 'absolute',
+        width: width * 0.6,
+        height: 140,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 });
 

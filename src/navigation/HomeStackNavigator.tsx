@@ -1,15 +1,18 @@
 import React from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeStackRoute } from "../utils/constants";
 import HomePageView from "../views/home";
+import { HomeStackParamList } from "./params/HomeStackParamList";
+import Player from "../views/player";
 
-const HomeStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 
 const HomeStackNavigator = () => {
 
     return (
         <HomeStack.Navigator screenOptions={{headerShown: false}} >
-            <HomeStack.Screen name={HomeStackRoute.Home} component={HomePageView} />
+            <HomeStack.Screen name="Home" component={HomePageView} />
+            <HomeStack.Screen name="Player" component={Player} />
+
         </HomeStack.Navigator>
     );
 }
