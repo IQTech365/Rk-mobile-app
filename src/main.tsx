@@ -3,10 +3,10 @@ import {} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import Spinner from './common/Spinner';
 import {useAuthContext} from './provider/AuthProvider';
-import TabNavigator from './navigation/TabNavigator';
 import AuthStackNavigator from './navigation/AuthStackNavigator';
 import {Provider} from 'react-redux';
 import {store} from './redux/store';
+import HomeStackNavigator from './navigation/HomeStackNavigator';
 
 const Main = () => {
   const authContext = useAuthContext();
@@ -19,7 +19,7 @@ const Main = () => {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        {loggedIn ? <TabNavigator /> : <AuthStackNavigator />}
+        {loggedIn ? <HomeStackNavigator /> : <AuthStackNavigator />}
       </Provider>
     </NavigationContainer>
   );

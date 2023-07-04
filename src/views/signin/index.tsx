@@ -88,6 +88,7 @@ const SignInPageView = (props: any) => {
           onChangeText={onChangePasswordText}
           required={true}
           validationType={INPUT_VALIDATION_TYPE.TEXT}
+          secureTextEntry={true}
         />
         <Spacer />
         <View style={styles.forgotPasswordContainer}>

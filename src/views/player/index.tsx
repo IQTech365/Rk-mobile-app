@@ -1,19 +1,25 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {createRef, useEffect, useState} from 'react';
 import Video from 'react-native-video';
-import {StatusBar, View, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
+import {
+  StatusBar,
+  View,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from 'react-native';
 import {IVideo} from '../../interface/home/IVideoResponse';
 import {HomeStackParamList} from '../../navigation/params/HomeStackParamList';
 import styles from './style';
 import Orientation from 'react-native-orientation-locker';
 import ExitFullScreenIcon from '../../images/icons/exit-full-screen.svg';
 import FullScreenIcon from '../../images/icons/full-screen.svg';
-import { PlayerControls } from './components/VideoControls';
-import { ProgressBar } from './components/ProgressBar';
+import CloseIcon from '../../images/icons/close.svg';
+import {PlayerControls} from './components/VideoControls';
+import {ProgressBar} from './components/ProgressBar';
 
 type Props = NativeStackScreenProps<HomeStackParamList, 'Player'>;
 
-const Player: React.FC<Props> = ({route}) => {
+const Player: React.FC<Props> = ({route, navigation}) => {
   const item: IVideo | undefined = route.params?.item;
   const playerRef = createRef();
   const [fullScreen, setFullScreen] = useState<boolean>(false);
@@ -35,64 +41,68 @@ const Player: React.FC<Props> = ({route}) => {
   const handlePlayPause = () => {
     // If playing, pause and show controls immediately.
     if (play) {
-        setPlay(false);
-        setShowControls(true);
+      setPlay(false);
+      setShowControls(true);
       return;
     }
     setPlay(true);
     setTimeout(() => {
-        setShowControls(false);
+      setShowControls(false);
     }, 2000);
-  }
+  };
 
   const skipBackward = () => {
-      //@ts-ignore
+    //@ts-ignore
     playerRef?.current?.seek(currentTime - 10);
     setCurrentTime(currentTime - 10);
-  }
+  };
 
   const skipForward = () => {
-      //@ts-ignore
+    //@ts-ignore
     playerRef?.current?.seek(currentTime + 10);
     setCurrentTime(currentTime + 10);
-  }
+  };
 
   const handleFullScreen = () => {
-      if(fullScreen) {
-          Orientation.unlockAllOrientations();
-      } else {
-          Orientation.lockToLandscape();
-      }
-  }
+    if (fullScreen) {
+      Orientation.unlockAllOrientations();
+    } else {
+      Orientation.lockToLandscape();
+    }
+  };
 
   const handleShowControls = () => {
-      if(showControls) {
-          setShowControls(false);
-      } else {
-          setShowControls(true);
-      }
-  }
+    if (showControls) {
+      setShowControls(false);
+    } else {
+      setShowControls(true);
+    }
+  };
 
   const onLoadEnd = (data: any) => {
-      setDuration(data.durration);
-      setCurrentTime(data.currentTime);
-  }
+    setDuration(data.duration);
+    setCurrentTime(data.currentTime);
+  };
 
   const onProgress = (data: any) => {
     setCurrentTime(data.currentTime);
-  }
+  };
 
   const onEnd = () => {
     setPlay(false);
     //@ts-ignore
     playerRef?.current?.seek(0);
-  }
+  };
 
-  const onSeek = (data:any) => {
-      //@ts-ignore
+  const onSeek = (data: any) => {
+    //@ts-ignore
     playerRef?.current?.seek(data.seekTime);
     setCurrentTime(data.seekTime);
-  }
+  };
+
+  const handleClose = () => {
+    navigation.goBack();
+  };
 
   useEffect(() => {
     Orientation.addOrientationListener(handleOrientation);
@@ -108,10 +118,10 @@ const Player: React.FC<Props> = ({route}) => {
         <View>
           <Video
             ref={playerRef}
-            source={{
-              uri:
-                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-            }}
+            // source={{
+            //   uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            // }}
+            source={{uri: item?.videoURL}}
             style={fullScreen ? styles.fullscreenVideo : styles.video}
             controls={false}
             resizeMode={'contain'}
@@ -122,12 +132,24 @@ const Player: React.FC<Props> = ({route}) => {
           />
           {showControls && (
             <View style={styles.controlOverlay}>
-              <TouchableOpacity
-                onPress={handleFullScreen}
-                hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
-                style={styles.fullscreenButton}>
-                {fullScreen ? <ExitFullScreenIcon width={32} height={32} /> : <FullScreenIcon width={32} height={32} />}
-              </TouchableOpacity>
+              <View style={styles.fullscreenButton}>
+                <TouchableOpacity
+                  onPress={handleClose}
+                  hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+                >
+                  <CloseIcon width={32} height={32} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handleFullScreen}
+                  hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+                >
+                  {fullScreen ? (
+                    <ExitFullScreenIcon width={32} height={32} />
+                  ) : (
+                    <FullScreenIcon width={32} height={32} />
+                  )}
+                </TouchableOpacity>
+              </View>
               <PlayerControls
                 onPlay={handlePlayPause}
                 onPause={handlePlayPause}

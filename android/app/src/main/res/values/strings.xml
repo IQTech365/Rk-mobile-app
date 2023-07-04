@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">rkmapp</string>
+    <string name="content_description">App logo</string>
 </resources>

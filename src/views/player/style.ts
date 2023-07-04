@@ -24,9 +24,10 @@ const styles = StyleSheet.create({
     fullscreenButton: {
       flex: 1,
       flexDirection: 'row',
-      alignSelf: 'flex-end',
+      // alignSelf: 'flex-end',
+      justifyContent: 'space-between',
       alignItems: 'center',
-      paddingRight: 10,
+      paddingHorizontal: 10,
     },
     controlOverlay: {
       position: 'absolute',

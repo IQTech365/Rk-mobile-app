@@ -9,6 +9,7 @@ interface InputProps {
   onChangeText: (text: string) => void;
   required?: boolean;
   validationType?: INPUT_VALIDATION_TYPE;
+  secureTextEntry?: boolean;
 }
 
 export enum INPUT_VALIDATION_TYPE {
@@ -24,6 +25,7 @@ const Input: React.FC<InputProps> = ({
   onChangeText,
   required = false,
   validationType,
+  secureTextEntry = false,
 }) => {
   const [errorText, setErrorText] = useState<string | null>(null);
   const [value, setValue] = useState<string>('');
@@ -67,6 +69,7 @@ const Input: React.FC<InputProps> = ({
             placeholder={placeholder}
             onChangeText={_onChangeText}
             onBlur={_validateOnBlur}
+            secureTextEntry={secureTextEntry}
           />
         </View>
       </View>
