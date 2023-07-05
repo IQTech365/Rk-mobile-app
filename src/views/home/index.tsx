@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {View, Text, ScrollView, SafeAreaView, FlatList} from 'react-native';
+import {ScrollView, SafeAreaView, FlatList, Dimensions} from 'react-native';
 import Header from '../../common/Header';
 import Label from '../../common/Label';
 import Spacer from '../../common/Spacer';
@@ -9,23 +9,23 @@ import { fetchBanners } from '../../redux/slices/BannerSlice';
 import { fetchCategories } from '../../redux/slices/CategoriesSlice';
 import { fetchVideos } from '../../redux/slices/VideosSlice';
 import { HomeStackRoute } from '../../utils/constants';
-import BannerCard from './components/BannerCard';
+import Carousel from './components/Carousel';
 import CategoryCard from './components/CategoryCard';
 import ThumbnailCard from './components/ThumbnailCard';
 import styles from './style';
 
-const tempBanners = [1, 2, 3, 4];
 const tempCategories = ['Skill Development', 'Motivational', 'Motivational', 'Motivational']
 
 const HomePageView = (props:any) => {
   const {navigation} = props;
   const dispatch = useAppDispatch();
+  
   const { data: categoriesData } = useAppSelector(state => state.Categories);
   const {data: videosData} = useAppSelector(state => state.Videos);
   const { data: bannersData } = useAppSelector(state => state.Banners);
-  console.log('data----categoriesData----', JSON.stringify(categoriesData));
-  console.log('data----videosData----', JSON.stringify(videosData));
-  console.log('data----bannersData----', JSON.stringify(bannersData));
+  // console.log('data----categoriesData----', JSON.stringify(categoriesData));
+  // console.log('data----videosData----', JSON.stringify(videosData));
+  // console.log('data----bannersData----', JSON.stringify(bannersData));
   
   useEffect(() => {
     dispatch(fetchCategories());
@@ -41,15 +41,7 @@ const HomePageView = (props:any) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Header />
-        <Spacer height={8} />
-        <FlatList
-          horizontal
-          data={bannersData?.data}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item, index}) => (
-            <BannerCard length={tempBanners.length} item={item} index={index} />
-          )}
-        />
+        <Carousel items={bannersData?.data}/>
         <Spacer height={8} />
         <FlatList
           horizontal
@@ -57,16 +49,6 @@ const HomePageView = (props:any) => {
           showsHorizontalScrollIndicator={false}
           renderItem={({item, index}) => (
             <CategoryCard length={tempCategories.length} item={item} index={index}/>
-          )}
-        />
-        <Spacer height={8} />
-        <Label text='Continue Watching' />
-        <FlatList
-          horizontal
-          data={videosData?.data}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item, index}) => (
-            <ThumbnailCard length={tempCategories.length} item={item} index={index} onPress={handleVideoClick} />
           )}
         />
         <Spacer height={8} />

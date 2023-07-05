@@ -6,16 +6,17 @@ import Header2 from '../../common/Header2';
 import Spinner from '../../common/Spinner';
 import SendMessageIcon from '../../images/icons/send-message.svg';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import mockMessages from '../../mock/mock-messages.json';
 
 import styles from './style';
 import ChatBubble from './ChatBubble';
-import { fetchProfile } from '../../redux/slices/ProfileSlice';
 import { ISendMessage } from '../../interface/message/ISendMessage';
-import { resetSendMessage, sendMessage } from '../../redux/slices/MessageSlice';
+import { fetchMessages, resetSendMessage, sendMessage } from '../../redux/slices/MessageSlice';
+import { IMessage } from '../../interface/message/IMessage';
 
 const MessagePageView = (props: any) => {
   const dispatch = useAppDispatch();
+  const {user} = useAppSelector(state => state.Signin);
+  const {data: messagesData} = useAppSelector(state => state.Message);
   const [message, setMessage] = useState<string>('');
   const [currentMessages, setCurrentMessages] = useState<Array<string>>([]);
 
@@ -34,9 +35,24 @@ const MessagePageView = (props: any) => {
   };
 
   const handleSendMessage = () => {
-    const data: ISendMessage = {userId: '', message: message};
+    const copy = [...currentMessages];
+    copy.push(message);
+    setCurrentMessages(copy);
+    const data: ISendMessage = {userId: user?.data.id as string, message: message};
     dispatch(sendMessage(data));
+    setMessage('');
   }
+
+  const displayCurrentMessages = (): Array<Partial<IMessage>> => {
+    return currentMessages.map(cm => {
+      const item: Partial<IMessage> = {message: cm};
+      return item;
+    })
+  }
+
+  useEffect(() => {
+    dispatch(fetchMessages(user?.data.id as string))
+  }, []);
 
   useEffect(() => {
     if(!sending && (sendSuccess || sendFailure)){
@@ -50,7 +66,7 @@ const MessagePageView = (props: any) => {
         <View style={styles.messageContainer}>
           <Header2 title="Messages" canGoBack={false} />
           <FlatList
-            data={mockMessages}
+            data={messagesData?.data || displayCurrentMessages()}
             renderItem={({item, index}) => (
               <ChatBubble item={item} index={index} />
             )}
@@ -62,6 +78,7 @@ const MessagePageView = (props: any) => {
             placeholder="Write here..."
             onChangeText={handleChatInputTextChange}
             onPress={handleSendMessage}
+            value={message}
           />
         </View>
         <Spinner show={sending || requesting} />

@@ -1,23 +1,20 @@
 import {StyleSheet, Dimensions} from 'react-native';
-import { COLOR_WHITE } from '../../../../utils/colors';
+import {COLOR_GRAY3, COLOR_GRAY4, COLOR_ORANGE, COLOR_WHITE} from '../../../../utils/colors';
 const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
-        borderRadius: 8,
-        alignItems: 'center',
+        width: width,
     },
-    cardContainer: {
-        width: width * 0.7,
-        height: 120,
-        backgroundColor: COLOR_WHITE,
-        borderRadius: 8,
-    },
-    banner: {
-        width: width * 0.7,
-        height: 120,
-        borderRadius: 8,
-    }
+  cardContainer: {
+    width: width,
+    height: height / 4,
+    backgroundColor: COLOR_WHITE,
+  },
+  banner: {
+    width: width,
+    height: height / 4,
+  },
 });
 
 export default styles;

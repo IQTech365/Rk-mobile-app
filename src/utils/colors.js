@@ -10,3 +10,4 @@ export const COLOR_GRAY3 = '#F2F2F2';
 export const COLOR_GRAY4 = '#737373';
 export const COLOR_CHAT1 = '#807CD0';
 export const COLOR_CHAT2 = '#6E69C9';
+export const COLOR_ORRANGE2 = '#ffb38a';

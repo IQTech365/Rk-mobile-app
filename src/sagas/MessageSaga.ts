@@ -10,7 +10,7 @@ import {
   sendMessageFailure,
   sendMessageSuccess,
 } from '../redux/slices/MessageSlice';
-import {IMessage} from '../interface/message/IMessage';
+import { IMessageResponse } from '../interface/message/IMessageResponse';
 
 export function* sendMessageSaga(action: PayloadAction<ISendMessage>) {
   try {
@@ -27,10 +27,11 @@ export function* sendMessageSaga(action: PayloadAction<ISendMessage>) {
 
 export function* fetchMessagesSaga(action: PayloadAction<string>) {
   try {
-    const response: Array<IMessage> = yield call(
+    const response: IMessageResponse = yield call(
       MessageService.fetchMessages,
       action.payload,
     );
+    console.log('response-mssge--', JSON.stringify(response));
     yield put(fetchMessagesSuccess(response));
   } catch (error) {
     yield put(fetchMessagesFailure(error));
