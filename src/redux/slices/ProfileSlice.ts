@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {IProfileResponse} from '../../interface/profile/IProfileResponse';
 import {IProfileUpdateRequest} from '../../interface/profile/IProfileUpdateRequest';
 import {IProfileUpdateResponse} from '../../interface/profile/IProfileUpdateResponse';
+import { IUser, IUserResponse } from '../../interface/user/IUser';
 
 interface IProfileState {
   data: IProfileUpdateResponse | null;
@@ -15,6 +16,12 @@ interface IProfileState {
   fetchProfileSuccess: boolean;
   fetchProfileFailure: boolean;
   fetchProfileError: any;
+  //
+  userInfoUpdating: boolean;
+  userInfoUpdateSuccess: boolean;
+  userInfoUpdateFailure: boolean;
+  userInfoUpdateError: any;
+  userInfoUpdateData: IUserResponse | null;
 }
 
 const initialState: IProfileState = {
@@ -28,6 +35,11 @@ const initialState: IProfileState = {
   fetchProfileSuccess: false,
   fetchProfileFailure: false,
   fetchProfileError: null,
+  userInfoUpdating: false,
+  userInfoUpdateSuccess: false,
+  userInfoUpdateFailure: false,
+  userInfoUpdateError: null,
+  userInfoUpdateData: null,
 };
 
 export const ProfileSlice = createSlice({
@@ -72,6 +84,30 @@ export const ProfileSlice = createSlice({
       state.fetchProfileError = action.payload;
       state.error = action.payload;
     },
+    updateUser: (state, action: PayloadAction<IUser>) => {
+      state.userInfoUpdating = true;
+    },
+    updateUserSuccess: (
+      state,
+      action: PayloadAction<IUserResponse>,
+    ) => {
+      state.userInfoUpdating = false;
+      state.userInfoUpdateSuccess = true;
+      state.userInfoUpdateData = action.payload;
+      state.userInfoUpdateError = null;
+    },
+    updateUserFailure: (state, action: PayloadAction<any>) => {
+      state.userInfoUpdating = false;
+      state.userInfoUpdateSuccess = false;
+      state.userInfoUpdateFailure = true;
+      state.userInfoUpdateError = action.payload;
+    },
+    resetUpdateUser: (state) => {
+      state.userInfoUpdating = false;
+      state.userInfoUpdateSuccess = false;
+      state.userInfoUpdateFailure = false;
+      state.userInfoUpdateError = null;
+    },
   },
 });
 
@@ -85,4 +121,8 @@ export const {
   fetchProfile,
   fetchProfileSuccess,
   fetchProfileFailure,
+  updateUser,
+  updateUserSuccess,
+  updateUserFailure,
+  resetUpdateUser
 } = ProfileSlice.actions;

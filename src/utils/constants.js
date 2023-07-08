@@ -18,6 +18,8 @@ const AuthStackRoute = {
 const HomeStackRoute = {
   Home: 'Home',
   Player: 'Player',
+  Search: 'Search',
+  Notification: 'Notification',
 };
 
 const ProfileStackRoute = {

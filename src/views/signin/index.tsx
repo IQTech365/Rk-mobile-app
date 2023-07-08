@@ -23,7 +23,7 @@ const SignInPageView = (props: any) => {
   const {navigation} = props;
   const dispatch = useAppDispatch();
   const authContext = useAuthContext();
-  const {setLoggedIn} = authContext;
+  const {setLoggedIn, setIsSubscribed} = authContext;
   const {requesting, success, error, user} = useAppSelector(state => state.Signin);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -57,6 +57,7 @@ const SignInPageView = (props: any) => {
     await setAuthToken(user?.token as string);
     await setLoginStatus('login');
     setLoggedIn(true);
+    setIsSubscribed(user?.data.isSubscribed as boolean);
   }
 
   useEffect(() => {

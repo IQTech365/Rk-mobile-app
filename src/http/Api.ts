@@ -27,4 +27,9 @@ export class Api extends HttpClient {
   public get = async <R>(uri: string): Promise<R> => {
     return this.instance.get<R>(uri);
   }
+
+  // ** PATCH **
+  public update = async <T, R>(data: T, uri: string): Promise<R> => {
+    return this.instance.patch<T, AxiosResponse<R>>(uri, data);
+  }
 }

@@ -82,6 +82,7 @@ const ProfilePageView: React.FC<IProfilePageProps> = ({navigation}) => {
     if(!requesting && (success || error)) {
       setEditForm(false);
       dispatch(resetUpdateProfile());
+      // dispatch(fetchProfile(user?.data?.id as string));
     }
   }, [requesting, success, error]);
 

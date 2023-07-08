@@ -13,3 +13,5 @@ export const CMS_PAGES = `/cms/read`;
 export const CMS_PAGE = (pageId) => `/cms/read/${pageId}`;
 export const UPDATE_PROFILE = ``;
 export const PROFILE = (userId) => ``;
+export const UPDATE_USER = (userId) => `/users/${userId}`;
+export const NOTIFICATION = ``;

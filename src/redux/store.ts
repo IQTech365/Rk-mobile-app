@@ -14,6 +14,7 @@ import CategorySlice from './slices/CategorySlice';
 import MessageSlice from './slices/MessageSlice';
 import ProfileSlice from './slices/ProfileSlice';
 import BannerSlice from './slices/BannerSlice';
+import NotificationSlice from './slices/NotificationSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
@@ -28,7 +29,8 @@ export const store = configureStore({
         video: VideoSlice,
         Message: MessageSlice,
         Profile: ProfileSlice,
-        Banners: BannerSlice
+        Banners: BannerSlice,
+        Notification: NotificationSlice
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware({
