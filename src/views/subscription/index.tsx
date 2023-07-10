@@ -61,7 +61,7 @@ const SubscriptionView = (props:any) => {
 
   const handleModal = () => {
     setVisisble(false);
-    if (purchaseStatus) {
+    if (purchaseStatus === STATUS_CODE.SUCCESS) {
       const dataToUpdate: IUser = {
         isSubscribed: true,
         userId: user?.data.id as string,

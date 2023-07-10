@@ -15,6 +15,8 @@ import { fetchProfile, resetUpdateProfile, updateProfile } from '../../redux/sli
 import Spinner from '../../common/Spinner';
 import { IProfileUpdateRequest } from '../../interface/profile/IProfileUpdateRequest';
 import AvatarIcon from '../../images/icons/user.png';
+import {useNetInfo} from "@react-native-community/netinfo";
+import NoNetworkView from '../../common/NoNetwork';
 
 const {width} = Dimensions.get('window');
 
@@ -25,6 +27,7 @@ interface IProfilePageProps {
 const ProfilePageView: React.FC<IProfilePageProps> = ({navigation}) => {
   const {setLoggedIn} = useAuthContext();
   const dispatch = useAppDispatch();
+  const netInfo = useNetInfo();
   const {user} = useAppSelector(state => state.Signin);
   const {requesting, success, error, fetchProfileRequesting} = useAppSelector(state => state.Profile);
   const [editForm, setEditForm] = useState<boolean>(false);
@@ -77,13 +80,12 @@ const ProfilePageView: React.FC<IProfilePageProps> = ({navigation}) => {
 
   useEffect(() => {
     dispatch(fetchProfile(user?.data?.id as string));
-  }, []);
+  }, [netInfo.isConnected]);
 
   useEffect(() => {
     if(!requesting && (success || error)) {
       setEditForm(false);
       dispatch(resetUpdateProfile());
-      // dispatch(fetchProfile(user?.data?.id as string));
     }
   }, [requesting, success, error]);
 
@@ -156,6 +158,7 @@ const ProfilePageView: React.FC<IProfilePageProps> = ({navigation}) => {
           <Button text="Save" onPress={handleSaveChanges} disabled={!editForm} />
         </View>
         <Spinner show={fetchProfileRequesting || requesting} />
+        <NoNetworkView show={!netInfo.isConnected}/>
       </View>
     </AvoidSoftInputViewHOC>
   );

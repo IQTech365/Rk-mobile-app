@@ -12,18 +12,21 @@ import {HomeStackRoute} from '../../utils/constants';
 import ThumbnailCard from '../home/components/ThumbnailCard';
 import NoDataView from '../../common/NoData';
 import Spinner from '../../common/Spinner';
+import {useNetInfo} from "@react-native-community/netinfo";
+import NoNetworkView from '../../common/NoNetwork';
 
 const SearchView = (props: any) => {
   const {navigation} = props;
   const dispatch = useAppDispatch();
   const {data, requesting} = useAppSelector(state => state.SearchVideo);
+  const netInfo = useNetInfo();
 
   const handleBackPress = () => {
     navigation.goBack();
   };
 
   const handleInputTextChange = (text: string) => {
-    if (text.length >= 3) {
+    if (text.length >= 3 && netInfo.isConnected) {
       dispatch(searchVideos(''));
     }
   };
@@ -31,10 +34,6 @@ const SearchView = (props: any) => {
   const handleVideoClick = (item: IVideo): void => {
     navigation.navigate(HomeStackRoute.Player, {item: item});
   };
-
-  // useEffect(()=> {
-  //   dispatch(searchVideos(''))
-  // }, []);
 
   return (
     <View style={styles.container}>
@@ -65,6 +64,7 @@ const SearchView = (props: any) => {
           ListEmptyComponent={<NoDataView message="Please type in search box..." />}
         />
       )}
+      <NoNetworkView show={!netInfo.isConnected}/>
     </View>
   );
 };

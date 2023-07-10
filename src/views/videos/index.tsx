@@ -11,6 +11,8 @@ import Spinner from '../../common/Spinner';
 import { HomeStackParamList } from '../../navigation/params/HomeStackParamList';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { fetchCategoeyVideos } from '../../redux/slices/CategoryVideosSlice';
+import {useNetInfo} from "@react-native-community/netinfo";
+import NoNetworkView from '../../common/NoNetwork';
 
 type Props = NativeStackScreenProps<HomeStackParamList, 'Videos'>;
 
@@ -18,6 +20,7 @@ const VideosView: React.FC<Props> = ({route, navigation}) => {
   const categoryId: string | undefined = route.params?.categoryId;
 
   const dispatch = useAppDispatch();
+  const netInfo = useNetInfo();
   const {data, requesting} = useAppSelector(state => state.CategoryVideos);
   console.log('data-data----', JSON.stringify(data));
 
@@ -31,7 +34,7 @@ const VideosView: React.FC<Props> = ({route, navigation}) => {
 
   useEffect(()=> {
     dispatch(fetchCategoeyVideos(categoryId as string))
-  }, []);
+  }, [netInfo.isConnected]);
 
   return (
     <View style={styles.container}>
@@ -56,6 +59,7 @@ const VideosView: React.FC<Props> = ({route, navigation}) => {
           ListEmptyComponent={<NoDataView message="No video found!" />}
         />
       )}
+      <NoNetworkView show={!netInfo.isConnected}/>
     </View>
   );
 };

@@ -12,7 +12,7 @@ const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 
 const HomeStackNavigator = () => {
     return (
-        <HomeStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Home" >
+        <HomeStack.Navigator screenOptions={{headerShown: false}} initialRouteName="Subscription" >
             <HomeStack.Screen name="Subscription" component={SubscriptionView} />
             <HomeStack.Screen name="Home" component={TabNavigator} />
             <HomeStack.Screen name="Player" component={Player} />

@@ -25,7 +25,7 @@ const Player: React.FC<Props> = ({route, navigation}) => {
   const [fullScreen, setFullScreen] = useState<boolean>(false);
   const [duration, setDuration] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
-  const [play, setPlay] = useState<boolean>(false);
+  const [play, setPlay] = useState<boolean>(true);
   const [showControls, setShowControls] = useState<boolean>(false);
 
   const handleOrientation = (orientation: string) => {
