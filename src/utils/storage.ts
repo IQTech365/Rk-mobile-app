@@ -47,3 +47,27 @@ export const removeToken = async () => {
     console.log('AsyncStorage Error in removing auth-token', e);
   }
 };
+
+export const setSubscribed = async (subscribe: string | '') => {
+  try {
+    await AsyncStorage.setItem('subscribed', subscribe);
+  } catch (error) {
+    console.log('AsyncStorage Error in saving subscribed', error);
+  }
+};
+
+export const getSubscribed = async () => {
+  try {
+    return await AsyncStorage.getItem('subscribed');
+  } catch (e) {
+    console.log('AsyncStorage Error in fetching subscribed', e);
+  }
+};
+
+export const removeSubscribed = async () => {
+  try {
+    return await AsyncStorage.removeItem('subscribed');
+  } catch (e) {
+    console.log('AsyncStorage Error in removing subscribed', e);
+  }
+};

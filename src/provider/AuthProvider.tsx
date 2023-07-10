@@ -5,18 +5,22 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import {getLoginStatus} from '../utils/storage';
+import {getLoginStatus, getSubscribed} from '../utils/storage';
 
 interface Auth {
   loggedIn: boolean;
   setLoggedIn: (status: boolean) => void;
   loading: boolean;
+  isSubscribed: boolean;
+  setIsSubscribed: (subscribe: boolean) => void;
 }
 
 const AuthContext = createContext<Auth>({
   loggedIn: false,
   setLoggedIn: () => {},
   loading: false,
+  isSubscribed: false,
+  setIsSubscribed: () => {},
 });
 
 export const AuthProvider: React.FC<{children: ReactElement}> = ({
@@ -24,12 +28,19 @@ export const AuthProvider: React.FC<{children: ReactElement}> = ({
 }) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
 
   const fetchLoginStatus = async () => {
     setLoading(true);
     const loginStatus = await getLoginStatus();
+    const subscriptionStatus = await getSubscribed();
     console.log('loginStatus----', loginStatus);
+    console.log('subscriptionStatus----', subscriptionStatus);
     
+    if(subscriptionStatus && subscriptionStatus === 'subscribe') {
+      setIsSubscribed(true);
+    }
+
     if (loginStatus && loginStatus === 'login') {
       setLoggedIn(true);
     } else {
@@ -50,7 +61,7 @@ export const AuthProvider: React.FC<{children: ReactElement}> = ({
   }, [loggedIn]);
 
   return (
-    <AuthContext.Provider value={{loggedIn, setLoggedIn, loading}}>
+    <AuthContext.Provider value={{loggedIn, setLoggedIn, loading, isSubscribed, setIsSubscribed}}>
       {children}
     </AuthContext.Provider>
   );

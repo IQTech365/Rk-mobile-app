@@ -14,6 +14,8 @@ import {IUser} from '../../interface/user/IUser';
 import {resetUpdateUser, updateUser} from '../../redux/slices/ProfileSlice';
 import Spinner from '../../common/Spinner';
 import { HomeStackRoute } from '../../utils/constants';
+import { useAuthContext } from '../../provider/AuthProvider';
+import { setSubscribed } from '../../utils/storage';
 
 const SubscriptionView = (props:any) => {
   const {navigation} = props;
@@ -22,6 +24,8 @@ const SubscriptionView = (props:any) => {
   );
   const [visible, setVisisble] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const authContext = useAuthContext();
+  const { setIsSubscribed } = authContext;
   const {
     userInfoUpdating,
     userInfoUpdateSuccess,
@@ -74,6 +78,8 @@ const SubscriptionView = (props:any) => {
   useEffect(() => {
     if (!userInfoUpdating && userInfoUpdateSuccess) {
       dispatch(resetUpdateUser());
+      setIsSubscribed(true);
+      setSubscribed('subscribe');
       navigation.navigate(HomeStackRoute.Home);
     } else if (!userInfoUpdating && userInfoUpdateFailure) {
       dispatch(resetUpdateUser());

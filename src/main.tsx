@@ -10,7 +10,7 @@ import HomeStackNavigator from './navigation/HomeStackNavigator';
 
 const Main = () => {
   const authContext = useAuthContext();
-  const {loggedIn, loading} = authContext;
+  const {loggedIn, loading, isSubscribed} = authContext;
 
   if (loading) {
     return <Spinner show={true} backdrop="opaque" />;
@@ -19,7 +19,7 @@ const Main = () => {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        {loggedIn ? <HomeStackNavigator /> : <AuthStackNavigator />}
+        {loggedIn ? <HomeStackNavigator isSubscribed={isSubscribed} /> : <AuthStackNavigator />}
       </Provider>
     </NavigationContainer>
   );

@@ -16,7 +16,7 @@ import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {ISigninRequest} from '../../interface/signin/ISigninRequest';
 import {resetSigin, signinRequest} from '../../redux/slices/SigninSlice';
 import {Validator} from '../../utils/validation';
-import {setAuthToken, setLoginStatus} from '../../utils/storage';
+import {setAuthToken, setLoginStatus, setSubscribed} from '../../utils/storage';
 import {useAuthContext} from '../../provider/AuthProvider';
 import Alert, {STATUS_CODE} from '../../common/Alert';
 import {useNetInfo} from "@react-native-community/netinfo";
@@ -69,6 +69,9 @@ const SignInPageView = (props: any) => {
     } else {
       await setAuthToken(user?.token as string);
       await setLoginStatus('login');
+      if(user?.data.isSubscribed) {
+        await setSubscribed('subscribe');
+      }
       setLoggedIn(true);
     }
   };
