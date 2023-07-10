@@ -17,6 +17,8 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ISignupRequest } from '../../interface/signup/ISignupRequest';
 import { signupRequest } from '../../redux/slices/SignupSlice';
 import { Validator } from '../../utils/validation';
+import {useNetInfo} from "@react-native-community/netinfo";
+import NoNetworkView from '../../common/NoNetwork';
 
 const SignUpPageView = (props: any) => {
   const {navigation} = props;
@@ -26,6 +28,7 @@ const SignUpPageView = (props: any) => {
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const netInfo = useNetInfo();
 
   const onChangeUsernameText = (text: string) => {
     setUsername(text);
@@ -45,8 +48,9 @@ const SignUpPageView = (props: any) => {
       password: password,
       email: email,
     }
-    console.log('signup-payload----', JSON.stringify(payload));
-    dispatch(signupRequest(payload));
+    if(netInfo.isConnected) {
+      dispatch(signupRequest(payload));
+    }
   }, [username, email, password]);
 
   const onSignInPress = useCallback(() => {
@@ -101,6 +105,7 @@ const SignUpPageView = (props: any) => {
           </TouchableOpacity>
         </View>
         <Spinner show={requesting} />
+        <NoNetworkView show={!netInfo.isConnected}/>
       </View>
     </AvoidSoftInputViewHOC>
   );

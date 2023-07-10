@@ -19,11 +19,15 @@ import {Validator} from '../../utils/validation';
 import {setAuthToken, setLoginStatus} from '../../utils/storage';
 import {useAuthContext} from '../../provider/AuthProvider';
 import Alert, {STATUS_CODE} from '../../common/Alert';
+import {useNetInfo} from "@react-native-community/netinfo";
+import NoNetworkView from '../../common/NoNetwork';
 
 const SignInPageView = (props: any) => {
   const {navigation} = props;
   const dispatch = useAppDispatch();
   const authContext = useAuthContext();
+  const netInfo = useNetInfo();
+
   const {setLoggedIn} = authContext;
   const {requesting, success, error, user} = useAppSelector(
     state => state.Signin,
@@ -49,7 +53,9 @@ const SignInPageView = (props: any) => {
       email: email,
       password: password,
     };
-    dispatch(signinRequest(payload));
+    if(netInfo.isConnected) {
+      dispatch(signinRequest(payload));
+    }
   }, [email, password]);
 
   const onSignUpPress = useCallback(() => {
@@ -128,6 +134,7 @@ const SignInPageView = (props: any) => {
           visible={siginError}
           variant={STATUS_CODE.ERROR}
         />
+        <NoNetworkView show={!netInfo.isConnected}/>
       </View>
     </AvoidSoftInputViewHOC>
   );
