@@ -2,19 +2,25 @@ import React from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
 import styles from './style';
 import {Shadow} from 'react-native-shadow-2';
-import { ICategory } from '../../../../interface/home/ICategoryResponse';
+import {ICategory} from '../../../../interface/home/ICategoryResponse';
 
 interface ICategoryCardProps {
   item: ICategory;
   index: number;
-  length: number;
+  onPress: (categoryId: string) => void;
 }
 
-const CategoryCard: React.FC<ICategoryCardProps> = ({index, item}) => {
+const CategoryCard: React.FC<ICategoryCardProps> = ({index, item, onPress}) => {
   return (
-    <TouchableOpacity key={index} style={styles.touchable} activeOpacity={0.6}>
+    <TouchableOpacity
+      key={index}
+      style={styles.touchable}
+      activeOpacity={0.6}
+      onPress={() => {
+        onPress(item._id);
+      }}>
       <Shadow style={[styles.container]} distance={5}>
-        <Text  style={styles.cardContainer}>{item.categoryName}</Text>
+        <Text style={styles.cardContainer}>{item.categoryName}</Text>
       </Shadow>
     </TouchableOpacity>
   );

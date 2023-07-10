@@ -10,6 +10,8 @@ import { fetchVideo, videoFetchFailure, videoFetchSuccess } from '../redux/slice
 import { setLoginStatus } from '../utils/storage';
 import { IBannerResponse } from '../interface/home/IBannerResponse';
 import { bannersFetchFailure, bannersFetchSuccess, fetchBanners } from '../redux/slices/BannerSlice';
+import { searchVideos, searchVideosFailure, searchVideosSuccess } from '../redux/slices/SearchVideoSlice';
+import { categoryVideosFetchFailure, categoryVideosFetchSuccess, fetchCategoeyVideos } from '../redux/slices/CategoryVideosSlice';
 
 /**
  * Category Sagas
@@ -59,6 +61,24 @@ export function* videoSaga(action: PayloadAction<string>) {
     }
 }
 
+export function* categoryVideosSaga(action: PayloadAction<string>) {
+    try {
+        const response: IVideoResponse = yield call(ContentService.fetchCategoryVideos, action.payload);
+        yield put(categoryVideosFetchSuccess(response));
+    } catch (error) {
+        yield put(categoryVideosFetchFailure(error));
+    }
+}
+
+export function* searchVideosSaga(action: PayloadAction<string>) {
+    try {
+        const response: IVideoResponse = yield call(ContentService.searchVideos, action.payload);
+        yield put(searchVideosSuccess(response));
+    } catch (error) {
+        yield put(searchVideosFailure(error));
+    }
+}
+
 /**
  * Banner Saga
  */
@@ -75,6 +95,9 @@ export function* watcherContentSaga() {
     yield takeLatest(fetchCategories.type, categoriesSaga);
     yield takeLatest(fetchCategory.type, categorySaga);
     yield takeLatest(fetchVideos.type, videosSaga);
+    yield takeLatest(fetchCategoeyVideos.type, categoryVideosSaga);
     yield takeLatest(fetchVideo.type, videoSaga);
     yield takeLatest(fetchBanners.type, bannerSaga);
+    yield takeLatest(searchVideos.type, searchVideosSaga);
+
 }

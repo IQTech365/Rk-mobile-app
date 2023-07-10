@@ -1,3 +1,5 @@
+import { IVideo } from "./IVideoResponse";
+
 export interface ICategory {
     categoryName: string;
     createdAt: string;
@@ -6,6 +8,7 @@ export interface ICategory {
     updatedAt: string;
     _id: string;
     __v: number;
+    allVideos: Array<IVideo>;
 }
 
 export interface ICategoryResponse {

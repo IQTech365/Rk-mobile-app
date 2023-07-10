@@ -7,4 +7,5 @@ export type HomeStackParamList = {
     Search: undefined;
     Subscription: undefined;
     Notification: undefined;
+    Videos: {categoryId: string} | undefined;
 }

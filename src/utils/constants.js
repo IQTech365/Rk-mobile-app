@@ -20,6 +20,7 @@ const HomeStackRoute = {
   Player: 'Player',
   Search: 'Search',
   Notification: 'Notification',
+  Videos: 'Videos',
 };
 
 const ProfileStackRoute = {

@@ -5,7 +5,7 @@ import Button from '../../common/Button';
 import Spacer from '../../common/Spacer';
 import ProfileBackgroundImage from '../../images/icons/profile-bg.svg';
 import AvoidSoftInputViewHOC from '../../common/AvoidSoftInputViewHOC';
-import {setLoginStatus} from '../../utils/storage';
+import {removeLoginStatus, removeToken, setLoginStatus} from '../../utils/storage';
 import {useAuthContext} from '../../provider/AuthProvider';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import ChatInput from '../../common/ChatInput';
@@ -36,7 +36,8 @@ const ProfilePageView: React.FC<IProfilePageProps> = ({navigation}) => {
   const [address, setAddress] = useState<string>('');
 
   const handleLogout = async () => {
-    await setLoginStatus('');
+    await removeLoginStatus();
+    await removeToken();
     setLoggedIn(false);
   };
 

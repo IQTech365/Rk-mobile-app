@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity, Image} from 'react-native';
+import {View, TouchableOpacity, Image, Dimensions} from 'react-native';
 import styles from './style';
 import {IBanner} from '../../../../interface/home/IBannerResponse';
 

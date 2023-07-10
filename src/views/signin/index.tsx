@@ -8,25 +8,29 @@ import UserIcon from '../../images/icons/user2.svg';
 import LockIcon from '../../images/icons/lock.svg';
 
 import Button from '../../common/Button';
-import Input, { INPUT_VALIDATION_TYPE } from '../../common/Input';
+import Input, {INPUT_VALIDATION_TYPE} from '../../common/Input';
 import Spacer from '../../common/Spacer';
-import { AuthStackRoute } from '../../utils/constants';
+import {AuthStackRoute} from '../../utils/constants';
 import Spinner from '../../common/Spinner';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { ISigninRequest } from '../../interface/signin/ISigninRequest';
-import { signinRequest } from '../../redux/slices/SigninSlice';
-import { Validator } from '../../utils/validation';
-import { setAuthToken, setLoginStatus } from '../../utils/storage';
-import { useAuthContext } from '../../provider/AuthProvider';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import {ISigninRequest} from '../../interface/signin/ISigninRequest';
+import {resetSigin, signinRequest} from '../../redux/slices/SigninSlice';
+import {Validator} from '../../utils/validation';
+import {setAuthToken, setLoginStatus} from '../../utils/storage';
+import {useAuthContext} from '../../provider/AuthProvider';
+import Alert, {STATUS_CODE} from '../../common/Alert';
 
 const SignInPageView = (props: any) => {
   const {navigation} = props;
   const dispatch = useAppDispatch();
   const authContext = useAuthContext();
-  const {setLoggedIn, setIsSubscribed} = authContext;
-  const {requesting, success, error, user} = useAppSelector(state => state.Signin);
+  const {setLoggedIn} = authContext;
+  const {requesting, success, error, user} = useAppSelector(
+    state => state.Signin,
+  );
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [siginError, setSigninError] = useState<boolean>(false);
 
   const onChangeEmailText = (text: string) => {
     setEmail(text);
@@ -44,7 +48,7 @@ const SignInPageView = (props: any) => {
     const payload: ISigninRequest = {
       email: email,
       password: password,
-    }
+    };
     dispatch(signinRequest(payload));
   }, [email, password]);
 
@@ -54,19 +58,30 @@ const SignInPageView = (props: any) => {
 
   const _handleSigninSuccess = async () => {
     console.log('token----', user?.token);
-    await setAuthToken(user?.token as string);
-    await setLoginStatus('login');
-    setLoggedIn(true);
-    setIsSubscribed(user?.data.isSubscribed as boolean);
-  }
+    if (user?.code === 404) {
+      setSigninError(true);
+    } else {
+      await setAuthToken(user?.token as string);
+      await setLoginStatus('login');
+      setLoggedIn(true);
+    }
+  };
+
+  const handleAlert = () => {
+    setSigninError(false);
+    dispatch(resetSigin());
+  };
 
   useEffect(() => {
-    if(!requesting && success && !error) {
+    if (!requesting && success && !error) {
       _handleSigninSuccess();
     }
   }, [success, requesting, error]);
 
-  const disableButton = Validator.isEmpty(email) || !Validator.emailRegex(email) || Validator.isEmpty(password);
+  const disableButton =
+    Validator.isEmpty(email) ||
+    !Validator.emailRegex(email) ||
+    Validator.isEmpty(password);
 
   return (
     <AvoidSoftInputViewHOC>
@@ -107,6 +122,12 @@ const SignInPageView = (props: any) => {
           </TouchableOpacity>
         </View>
         <Spinner show={requesting} />
+        <Alert
+          message={user?.message}
+          onPress={handleAlert}
+          visible={siginError}
+          variant={STATUS_CODE.ERROR}
+        />
       </View>
     </AvoidSoftInputViewHOC>
   );

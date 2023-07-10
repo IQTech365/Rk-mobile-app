@@ -1,51 +1,41 @@
 import React, {useEffect} from 'react';
 import {FlatList, View} from 'react-native';
 import styles from './style';
-import SendMessageIcon from '../../images/icons/search.svg';
-import ChatInput from '../../common/ChatInput';
 import Header2 from '../../common/Header2';
 import Spacer from '../../common/Spacer';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {searchVideos} from '../../redux/slices/SearchVideoSlice';
 import {IVideo} from '../../interface/home/IVideoResponse';
-import {HomeStackRoute} from '../../utils/constants';
 import ThumbnailCard from '../home/components/ThumbnailCard';
 import NoDataView from '../../common/NoData';
 import Spinner from '../../common/Spinner';
+import { HomeStackParamList } from '../../navigation/params/HomeStackParamList';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { fetchCategoeyVideos } from '../../redux/slices/CategoryVideosSlice';
 
-const SearchView = (props: any) => {
-  const {navigation} = props;
+type Props = NativeStackScreenProps<HomeStackParamList, 'Videos'>;
+
+const VideosView: React.FC<Props> = ({route, navigation}) => {
+  const categoryId: string | undefined = route.params?.categoryId;
+
   const dispatch = useAppDispatch();
-  const {data, requesting} = useAppSelector(state => state.SearchVideo);
+  const {data, requesting} = useAppSelector(state => state.CategoryVideos);
+  console.log('data-data----', JSON.stringify(data));
 
   const handleBackPress = () => {
     navigation.goBack();
   };
 
-  const handleInputTextChange = (text: string) => {
-    if (text.length >= 3) {
-      dispatch(searchVideos(''));
-    }
-  };
-
   const handleVideoClick = (item: IVideo): void => {
-    navigation.navigate(HomeStackRoute.Player, {item: item});
+    navigation.navigate('Player', {item: item});
   };
 
-  // useEffect(()=> {
-  //   dispatch(searchVideos(''))
-  // }, []);
+  useEffect(()=> {
+    dispatch(fetchCategoeyVideos(categoryId as string))
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Header2 title="Search" canGoBack={true} onPress={handleBackPress} />
-      <Spacer height={10} />
-      <ChatInput
-        icon={<SendMessageIcon width={24} height={24} />}
-        placeholder="Search..."
-        onChangeText={handleInputTextChange}
-        onPress={() => {}}
-      />
+      <Header2 title="Category Videos" canGoBack={true} onPress={handleBackPress} />
       <Spacer height={10} />
       {requesting ? (
         <Spinner show={requesting} />
@@ -60,13 +50,14 @@ const SearchView = (props: any) => {
               onPress={handleVideoClick}
               style={styles.videoCard}
               tumbnailStyle={styles.tumbnail}
+              playButtonStyle={styles.playButtonStyle}
             />
           )}
-          ListEmptyComponent={<NoDataView message="Please type in search box..." />}
+          ListEmptyComponent={<NoDataView message="No video found!" />}
         />
       )}
     </View>
   );
 };
 
-export default SearchView;
+export default VideosView;

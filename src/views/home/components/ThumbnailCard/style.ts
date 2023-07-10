@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
         width: width * 0.6,
         height: 140,
         borderRadius: 8, 
+        resizeMode: 'contain'
     },
     playButtonContainer: {
         position: 'absolute',

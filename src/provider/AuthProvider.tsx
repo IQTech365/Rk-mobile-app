@@ -11,16 +11,12 @@ interface Auth {
   loggedIn: boolean;
   setLoggedIn: (status: boolean) => void;
   loading: boolean;
-  isSubscribed: boolean;
-  setIsSubscribed: (status: boolean) => void;
 }
 
 const AuthContext = createContext<Auth>({
   loggedIn: false,
   setLoggedIn: () => {},
   loading: false,
-  isSubscribed: false,
-  setIsSubscribed: () => {},
 });
 
 export const AuthProvider: React.FC<{children: ReactElement}> = ({
@@ -28,7 +24,6 @@ export const AuthProvider: React.FC<{children: ReactElement}> = ({
 }) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
 
   const fetchLoginStatus = async () => {
     setLoading(true);
@@ -55,7 +50,7 @@ export const AuthProvider: React.FC<{children: ReactElement}> = ({
   }, [loggedIn]);
 
   return (
-    <AuthContext.Provider value={{loggedIn, setLoggedIn, loading, isSubscribed, setIsSubscribed}}>
+    <AuthContext.Provider value={{loggedIn, setLoggedIn, loading}}>
       {children}
     </AuthContext.Provider>
   );

@@ -13,15 +13,17 @@ interface IAlertProps {
   variant: STATUS_CODE;
   visible: boolean;
   onPress: () => void;
+  message?: string;
 }
 
 const Alert: React.FC<IAlertProps> = ({
   variant,
   visible,
   onPress,
+  message,
 }) => {
     const titleStyle = variant === 'success' ? styles.titleSuccessContainer : styles.titleErrorContainer;
-    const message = variant === STATUS_CODE.SUCCESS ? 'Subscription successful' : 'Error in subscription';
+    const msg = variant === STATUS_CODE.SUCCESS ? 'Subscription successful' : 'Error in subscription';
     const title = variant === STATUS_CODE.SUCCESS ? 'Success' : 'Error';
     const buttonText = variant === STATUS_CODE.SUCCESS ? 'OK' : 'CANCEL';
   return (
@@ -37,7 +39,7 @@ const Alert: React.FC<IAlertProps> = ({
               <Text style={styles.modalText}>{title}</Text>
             </View>
             <Spacer height={20} />
-            <Text style={styles.descriptionText}>{message}</Text>
+            <Text style={styles.descriptionText}>{message ? message : msg}</Text>
             <Spacer height={20} />
             <Button
               text={buttonText}

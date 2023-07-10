@@ -10,6 +10,8 @@ interface ILabelProps {
   showIcon?: boolean;
   onPress?: () => void;
   isCopy?: boolean;
+  isViewAll?:boolean;
+  disabled?:boolean;
 }
 
 const Label: React.FC<ILabelProps> = ({
@@ -18,14 +20,26 @@ const Label: React.FC<ILabelProps> = ({
   showIcon,
   onPress,
   isCopy,
+  isViewAll,
+  disabled = false
 }) => {
   const style = showBorder ? styles.container2 : styles.container;
+
+  const renderAction = () => {
+    if(isCopy) {
+      return <CopyIcon width={24} height={24} />;
+    } else if(isViewAll) {
+      const style = disabled ? styles.viewAllTextDisabled : styles.viewAllText;
+      return <Text style={style}>View All</Text>
+    }
+    return <DoubleRightIcon width={24} height={24} />;
+  }
   return (
     <View style={style}>
       <Text style={styles.text}>{text}</Text>
       {showIcon ? (
-        <TouchableOpacity onPress={onPress}>
-          {isCopy ? <CopyIcon width={24} height={24} /> : <DoubleRightIcon width={24} height={24} />}
+        <TouchableOpacity onPress={onPress} disabled={disabled}>
+          {renderAction()}
         </TouchableOpacity>
       ) : null}
     </View>

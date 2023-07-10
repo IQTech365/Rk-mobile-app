@@ -12,8 +12,16 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR_WHITE,
   },
   banner: {
-    width: width,
-    height: height / 4,
+    // width: width,
+    // height: height / 4,
+    // resizeMode: 'cover',
+    // aspectRatio: width / 0.1
+    // aspectRatio: 1/0.5
+    // height: 'auto',
+    // aspectRatio: 16 / 8.2,
+    // resizeMode: 'contain'
+    flex: 1,
+    // resizeMode: 'contain'
   },
 });
 

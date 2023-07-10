@@ -15,6 +15,10 @@ const styles = StyleSheet.create({
     tumbnail: {
         width: width * 0.9,
         height: 160,
+    },
+    playButtonStyle: {
+        width: width * 0.9,
+        height: 160,
     }
 });
 

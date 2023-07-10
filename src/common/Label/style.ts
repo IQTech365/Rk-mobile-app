@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-import { COLOR_GRAY, COLOR_GRAY2, COLOR_GRAY3, COLOR_GRAY4 } from '../../utils/colors';
+import { COLOR_BLUE, COLOR_GRAY, COLOR_GRAY2, COLOR_GRAY3, COLOR_GRAY4 } from '../../utils/colors';
 const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -28,6 +28,14 @@ const styles = StyleSheet.create({
         color: COLOR_GRAY4,
         fontSize: 14,
         fontWeight: '500',
+    },
+    viewAllText: {
+        color: COLOR_BLUE,
+        fontSize: 12,
+    },
+    viewAllTextDisabled: {
+        color: COLOR_GRAY4,
+        fontSize: 12,
     }
 });
 

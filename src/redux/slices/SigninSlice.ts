@@ -35,10 +35,17 @@ export const SigninSlice = createSlice({
             state.success = false;
             state.failure = true;
             state.error = action.payload;
+        },
+        resetSigin: (state) => {
+            state.user = null;
+            state.requesting = false;
+            state.success = false;
+            state.failure = false;
+            state.error = null;
         }
     }
 });
 
 export default SigninSlice.reducer;
 
-export const {signinRequest, signinSuccess, signinFailure} = SigninSlice.actions;
+export const {signinRequest, signinSuccess, signinFailure, resetSigin} = SigninSlice.actions;

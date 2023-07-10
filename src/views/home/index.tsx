@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {ScrollView, SafeAreaView, FlatList, Dimensions} from 'react-native';
+import {ScrollView, SafeAreaView, FlatList, View, Text} from 'react-native';
 import Header from '../../common/Header';
 import Label from '../../common/Label';
 import Spacer from '../../common/Spacer';
@@ -14,13 +14,6 @@ import CategoryCard from './components/CategoryCard';
 import ThumbnailCard from './components/ThumbnailCard';
 import styles from './style';
 
-const tempCategories = [
-  'Skill Development',
-  'Motivational',
-  'Motivational',
-  'Motivational',
-];
-
 const HomePageView = (props: any) => {
   const {navigation} = props;
   const dispatch = useAppDispatch();
@@ -28,7 +21,7 @@ const HomePageView = (props: any) => {
   const {data: categoriesData} = useAppSelector(state => state.Categories);
   const {data: videosData} = useAppSelector(state => state.Videos);
   const {data: bannersData} = useAppSelector(state => state.Banners);
-  // console.log('data----categoriesData----', JSON.stringify(categoriesData));
+  console.log('data----categoriesData----', JSON.stringify(categoriesData));
   // console.log('data----videosData----', JSON.stringify(videosData));
   // console.log('data----bannersData----', JSON.stringify(bannersData));
 
@@ -50,6 +43,10 @@ const HomePageView = (props: any) => {
     navigation.navigate(HomeStackRoute.Notification);
   };
 
+  const handleViewAll = (categoryId: string) => {
+    navigation.navigate('Videos', {categoryId: categoryId});
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -64,73 +61,44 @@ const HomePageView = (props: any) => {
           data={categoriesData?.data}
           showsHorizontalScrollIndicator={false}
           renderItem={({item, index}) => (
-            <CategoryCard
-              length={tempCategories.length}
-              item={item}
-              index={index}
-            />
+            <CategoryCard item={item} index={index} onPress={handleViewAll} />
           )}
         />
         <Spacer height={8} />
-        <Label text="Short Videos" />
-        <FlatList
-          horizontal
-          data={videosData?.data}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item, index}) => (
-            <ThumbnailCard
-              length={tempCategories.length}
-              item={item}
-              index={index}
-              onPress={handleVideoClick}
-            />
-          )}
-        />
-        <Spacer height={8} />
-        <Label text="Recommended Videos" />
-        <FlatList
-          horizontal
-          data={videosData?.data}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item, index}) => (
-            <ThumbnailCard
-              length={tempCategories.length}
-              item={item}
-              index={index}
-              onPress={handleVideoClick}
-            />
-          )}
-        />
-        <Spacer height={8} />
-        <Label text="Skill Development Videos" />
-        <FlatList
-          horizontal
-          data={videosData?.data}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item, index}) => (
-            <ThumbnailCard
-              length={tempCategories.length}
-              item={item}
-              index={index}
-              onPress={handleVideoClick}
-            />
-          )}
-        />
-        <Spacer height={8} />
-        <Label text="Motivational Videos" />
-        <FlatList
-          horizontal
-          data={videosData?.data}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item, index}) => (
-            <ThumbnailCard
-              length={tempCategories.length}
-              item={item}
-              index={index}
-              onPress={handleVideoClick}
-            />
-          )}
-        />
+        {categoriesData?.data.map((category, index) => {
+          return (
+            <>
+              <Label
+                text={category.categoryName}
+                showIcon={true}
+                isViewAll={true}
+                onPress={() => {
+                  handleViewAll(category._id);
+                }}
+                disabled={category.allVideos.length === 0}
+              />
+              <ScrollView
+                style={styles.videoContainer}
+                horizontal
+                showsHorizontalScrollIndicator={false}>
+                {category.allVideos.map((video, index) => {
+                  return (
+                    <ThumbnailCard
+                      item={video}
+                      index={index}
+                      onPress={handleVideoClick}
+                    />
+                  );
+                })}
+                {category.allVideos.length === 0 ? (
+                  <View style={styles.noDataContainer}>
+                    <Text>No Videos available!</Text>
+                  </View>
+                ) : null}
+              </ScrollView>
+            </>
+          );
+        })}
       </ScrollView>
     </SafeAreaView>
   );
