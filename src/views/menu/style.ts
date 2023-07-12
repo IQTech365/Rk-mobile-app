@@ -4,7 +4,10 @@ import { COLOR_WHITE } from '../../utils/colors';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLOR_WHITE
+    },
+    item: {
+        marginVertical: 4
+
     }
 });
 

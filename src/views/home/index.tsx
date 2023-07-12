@@ -19,12 +19,9 @@ const HomePageView = (props: any) => {
   const {navigation} = props;
   const dispatch = useAppDispatch();
   const netInfo = useNetInfo();
-  console.log('netInfo---', JSON.stringify(netInfo));
-  
 
   const {data: categoriesData} = useAppSelector(state => state.Categories);
   const {data: bannersData} = useAppSelector(state => state.Banners);
-  console.log('data----categoriesData----', JSON.stringify(categoriesData));
 
   const handleVideoClick = (item: IVideo): void => {
     navigation.navigate(HomeStackRoute.Player, {item: item});

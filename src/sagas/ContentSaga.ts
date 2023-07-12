@@ -12,6 +12,8 @@ import { IBannerResponse } from '../interface/home/IBannerResponse';
 import { bannersFetchFailure, bannersFetchSuccess, fetchBanners } from '../redux/slices/BannerSlice';
 import { searchVideos, searchVideosFailure, searchVideosSuccess } from '../redux/slices/SearchVideoSlice';
 import { categoryVideosFetchFailure, categoryVideosFetchSuccess, fetchCategoeyVideos } from '../redux/slices/CategoryVideosSlice';
+import { ICMSResponse } from '../interface/cms/ICMS';
+import { cmsPagesFetchFailure, cmsPagesFetchSuccess, fetchCMSPages } from '../redux/slices/CMSSlice';
 
 /**
  * Category Sagas
@@ -91,6 +93,15 @@ export function* searchVideosSaga(action: PayloadAction<string>) {
     }
 }
 
+export function* cmsPagesSaga(action: PayloadAction) {
+    try {
+        const response: ICMSResponse = yield call(ContentService.fetchCMSPages);
+        yield put(cmsPagesFetchSuccess(response));
+    } catch (error) {
+        yield put(cmsPagesFetchFailure(error));
+    }
+}
+
 export function* watcherContentSaga() {
     yield takeLatest(fetchCategories.type, categoriesSaga);
     yield takeLatest(fetchCategory.type, categorySaga);
@@ -99,5 +110,5 @@ export function* watcherContentSaga() {
     yield takeLatest(fetchVideo.type, videoSaga);
     yield takeLatest(fetchBanners.type, bannerSaga);
     yield takeLatest(searchVideos.type, searchVideosSaga);
-
+    yield takeLatest(fetchCMSPages.type, cmsPagesSaga);
 }

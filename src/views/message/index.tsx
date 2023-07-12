@@ -9,13 +9,18 @@ import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 
 import styles from './style';
 import ChatBubble from './ChatBubble';
-import { ISendMessage } from '../../interface/message/ISendMessage';
-import { fetchMessages, resetSendMessage, sendMessage } from '../../redux/slices/MessageSlice';
-import { IMessage } from '../../interface/message/IMessage';
+import {ISendMessage} from '../../interface/message/ISendMessage';
+import {
+  fetchMessages,
+  resetSendMessage,
+  sendMessage,
+} from '../../redux/slices/MessageSlice';
+import {IMessage} from '../../interface/message/IMessage';
 
 const MessagePageView = (props: any) => {
   const dispatch = useAppDispatch();
   const {user} = useAppSelector(state => state.Signin);
+  console.log('user---user---', JSON.stringify(user));
   const {data: messagesData} = useAppSelector(state => state.Message);
   const [message, setMessage] = useState<string>('');
   const [currentMessages, setCurrentMessages] = useState<Array<string>>([]);
@@ -38,24 +43,30 @@ const MessagePageView = (props: any) => {
     const copy = [...currentMessages];
     copy.push(message);
     setCurrentMessages(copy);
-    const data: ISendMessage = {userId: user?.data.id as string, message: message};
+    const data: ISendMessage = {
+      userId: user?.data.id as string,
+      message: message,
+      authId: 'temp_auth',
+      postedBy: 'user',
+    };
+    console.log('data--data--', JSON.stringify(data));
     dispatch(sendMessage(data));
-    setMessage('');
-  }
+  };
 
   const displayCurrentMessages = (): Array<Partial<IMessage>> => {
     return currentMessages.map(cm => {
       const item: Partial<IMessage> = {message: cm};
       return item;
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    dispatch(fetchMessages(user?.data.id as string))
+    dispatch(fetchMessages(user?.data.id as string));
   }, []);
 
   useEffect(() => {
-    if(!sending && (sendSuccess || sendFailure)){
+    if (!sending && (sendSuccess || sendFailure)) {
+      setMessage('');
       dispatch(resetSendMessage());
     }
   }, [sending, sendSuccess, sendFailure]);

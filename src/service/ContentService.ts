@@ -1,5 +1,6 @@
 import {Api} from '../http/Api';
-import {BANNER, CATEGORIES, CATEGORY, SEARCH_VIDEO, VIDEO, VIDEOS, VIDEOS_BY_CATEGORY} from '../http/Endpoint';
+import {BANNER, CATEGORIES, CATEGORY, CMS_PAGES, SEARCH_VIDEO, VIDEO, VIDEOS, VIDEOS_BY_CATEGORY} from '../http/Endpoint';
+import { ICMSResponse } from '../interface/cms/ICMS';
 import { IBannerResponse } from '../interface/home/IBannerResponse';
 import { ICategory, ICategoryResponse } from '../interface/home/ICategoryResponse';
 import { IVideo, IVideoResponse } from '../interface/home/IVideoResponse';
@@ -40,4 +41,9 @@ export const searchVideos = async (title: string): Promise<IVideoResponse> => {
 export const fetchBanners = async (): Promise<IBannerResponse> => {
     const api = Api.getInstance();
     return await api.get<IBannerResponse>(BANNER);
+}
+
+export const fetchCMSPages = async (): Promise<ICMSResponse> => {
+    const api = Api.getInstance();
+    return await api.get<ICMSResponse>(CMS_PAGES);
 }

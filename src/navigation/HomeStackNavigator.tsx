@@ -7,6 +7,7 @@ import SearchView from "../views/search";
 import SubscriptionView from "../views/subscription";
 import NotificationView from "../views/notification";
 import VideosView from "../views/videos";
+import CMSPageView from "../views/cms";
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 
@@ -23,6 +24,7 @@ const HomeStackNavigator:React.FC<IHomeStackNavigatorProps> = ({isSubscribed}) =
             <HomeStack.Screen name="Search" component={SearchView} />
             <HomeStack.Screen name="Notification" component={NotificationView} />
             <HomeStack.Screen name="Videos" component={VideosView} />
+            <HomeStack.Screen name="CMS" component={CMSPageView} />
         </HomeStack.Navigator>
     );
 }

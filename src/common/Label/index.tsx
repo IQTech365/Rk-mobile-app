@@ -8,7 +8,7 @@ interface ILabelProps {
   text: string;
   showBorder?: boolean;
   showIcon?: boolean;
-  onPress?: () => void;
+  onPress?: (value?: any) => void;
   isCopy?: boolean;
   isViewAll?:boolean;
   disabled?:boolean;

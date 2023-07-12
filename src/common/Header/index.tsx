@@ -17,10 +17,6 @@ const Header = (props:any) => {
                 <TouchableOpacity style={styles.icon} onPress={onSearchPress}>
                     <SearchIcon />
                 </TouchableOpacity>
-                <View style={styles.spacer} />
-                <TouchableOpacity style={styles.icon} onPress={onNotificationPress}>
-                    <NotificationIcon />
-                </TouchableOpacity>
             </View>
         </View>
     );

@@ -19,6 +19,7 @@ export function* sendMessageSaga(action: PayloadAction<ISendMessage>) {
       MessageService.sendMessage,
       action.payload,
     );
+    console.log('response-send-mssge--', JSON.stringify(response));
     yield put(sendMessageSuccess(response));
   } catch (error) {
     yield put(sendMessageFailure(error));

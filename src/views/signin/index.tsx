@@ -64,7 +64,7 @@ const SignInPageView = (props: any) => {
 
   const _handleSigninSuccess = async () => {
     console.log('token----', user?.token);
-    if (user?.code === 404) {
+    if (user?.code === 404 || user?.code === 201) {
       setSigninError(true);
     } else {
       await setAuthToken(user?.token as string);
