@@ -6,6 +6,7 @@ export interface IMessage {
     isDeleted: boolean;
     createdAt: string;
     updatedAt: string;
+    postedBy: string;
     _id: string;
     __v: number;
 }

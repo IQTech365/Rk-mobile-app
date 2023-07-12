@@ -9,10 +9,10 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_WHITE,
     },
     messageContainer: {
-        flex: 0.95,
+        flex: 0.9,
     },
     chatInputContainer: {
-        flex: 0.05,
+        flex: 0.1,
     }
 });
 

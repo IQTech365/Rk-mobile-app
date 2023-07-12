@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-import { COLOR_ERROR, COLOR_GRAY3 } from '../../utils/colors';
+import { COLOR_ERROR, COLOR_GRAY2, COLOR_GRAY3, COLOR_GRAY4 } from '../../utils/colors';
 const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({

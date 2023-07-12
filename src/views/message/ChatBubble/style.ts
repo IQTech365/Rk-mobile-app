@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR_CHAT1,
         marginVertical: 8,
         marginHorizontal: 8,
+        alignSelf: 'flex-start',
     },
     continer2: {
         padding: 8,

@@ -9,7 +9,7 @@ interface IChatBubbleProps {
 }
 
 const ChatBubble: React.FC<IChatBubbleProps> = ({item, index}) => {
-    const style = item.userId === 'user' ? styles.continer2 : styles.continer;
+    const style = item.postedBy === 'user' ? styles.continer2 : styles.continer;
   return (
     <View key={index} style={style}>
       <Text style={styles.text1}>{item?.message}</Text>
