@@ -1,23 +1,24 @@
 import {StyleSheet, Dimensions} from 'react-native';
 import {COLOR_ORANGE, COLOR_WHITE} from '../../utils/colors';
-const {width} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   bannerContainer: {
-    flex: 0.5,
+    flex: 0.55,
   },
   banner: {
     width: width,
     resizeMode: 'stretch',
+    // height: height
   },
   contentContainer: {
-    flex: 0.5,
+    flex: 0.45,
     width: width * 0.94,
     alignSelf: 'center',
-    paddingTop: 20,
+    paddingTop: 40,
     alignItems: 'center',
   },
   nameContainer: {

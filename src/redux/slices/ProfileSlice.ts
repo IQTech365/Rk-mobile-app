@@ -1,7 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {IProfileResponse} from '../../interface/profile/IProfileResponse';
-import {IProfileUpdateRequest} from '../../interface/profile/IProfileUpdateRequest';
-import {IProfileUpdateResponse} from '../../interface/profile/IProfileUpdateResponse';
+import {IProfile, IProfileResponse, IProfileUpdateResponse} from '../../interface/profile/IProfileResponse';
 import { IUser, IUserResponse } from '../../interface/user/IUser';
 
 interface IProfileState {
@@ -46,7 +44,7 @@ export const ProfileSlice = createSlice({
   name: 'ProfileSlice',
   initialState: initialState,
   reducers: {
-    updateProfile: (state, action: PayloadAction<IProfileUpdateRequest>) => {
+    updateProfile: (state, action: PayloadAction<Partial<IProfile>>) => {
       state.requesting = true;
     },
     updateProfileSuccess: (

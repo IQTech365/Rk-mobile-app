@@ -12,7 +12,7 @@ import Carousel from './components/Carousel';
 import CategoryCard from './components/CategoryCard';
 import ThumbnailCard from './components/ThumbnailCard';
 import styles from './style';
-import {useNetInfo} from "@react-native-community/netinfo";
+import {useNetInfo} from '@react-native-community/netinfo';
 import NoNetworkView from '../../common/NoNetwork';
 
 const HomePageView = (props: any) => {
@@ -40,7 +40,7 @@ const HomePageView = (props: any) => {
   };
 
   useEffect(() => {
-    if(netInfo.isConnected !== undefined && netInfo.isConnected) {
+    if (netInfo.isConnected !== undefined && netInfo.isConnected) {
       dispatch(fetchCategories());
       dispatch(fetchBanners());
     }
@@ -66,7 +66,7 @@ const HomePageView = (props: any) => {
         <Spacer height={8} />
         {categoriesData?.data.map((category, index) => {
           return (
-            <>
+            <View key={`${category._id}`}>
               <Label
                 text={category.categoryName}
                 showIcon={true}
@@ -80,13 +80,15 @@ const HomePageView = (props: any) => {
                 style={styles.videoContainer}
                 horizontal
                 showsHorizontalScrollIndicator={false}>
-                {category.allVideos.map((video, index) => {
+                {category.allVideos.map((video, i) => {
                   return (
-                    <ThumbnailCard
-                      item={video}
-                      index={index}
-                      onPress={handleVideoClick}
-                    />
+                    <View key={`${video._id}`}>
+                      <ThumbnailCard
+                        item={video}
+                        index={index}
+                        onPress={handleVideoClick}
+                      />
+                    </View>
                   );
                 })}
                 {category.allVideos.length === 0 ? (
@@ -95,11 +97,11 @@ const HomePageView = (props: any) => {
                   </View>
                 ) : null}
               </ScrollView>
-            </>
+            </View>
           );
         })}
       </ScrollView>
-      <NoNetworkView show={!netInfo.isConnected}/>
+      <NoNetworkView show={!netInfo.isConnected} />
     </SafeAreaView>
   );
 };

@@ -27,7 +27,7 @@ const MessagePageView = (props: any) => {
     sending,
     sendSuccess,
     sendFailure,
-    data: messagesData,
+    data: messagesData = [],
     requesting,
   } = useAppSelector(state => state.Message);
 
@@ -57,12 +57,14 @@ const MessagePageView = (props: any) => {
 
   const displayAllMessages = (): Array<Partial<IMessage>> => {
     const messages = displayCurrentMessages();
-    const previousMessages = messagesData?.data?.map(pm => {
-      const item = {message: pm.message, postedBy: pm.postedBy};
-      return item;
-    }) as Array<Partial<IMessage>>;
-    const appendMsgArr = [...previousMessages, ...messages];
-    return appendMsgArr;
+    // const {data} = messagesData || {};
+    // const previousMessages = data && data.length > 0 && data?.map((pm:any) => {
+    //   const item = {message: pm?.message, postedBy: pm?.postedBy};
+    //   return item;
+    // }) as Array<Partial<IMessage>>;
+    // const appendMsgArr = [...previousMessages, ...messages];
+    // return appendMsgArr.length > 0 ? appendMsgArr : [];
+    return messages;
   };
 
   useEffect(() => {

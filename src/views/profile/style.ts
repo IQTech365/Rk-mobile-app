@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-import { COLOR_BLUE, COLOR_GRAY, COLOR_ORANGE, COLOR_WHITE } from '../../utils/colors';
+import { COLOR_BLUE, COLOR_GRAY, COLOR_GRAY2, COLOR_GRAY4, COLOR_ORANGE, COLOR_WHITE } from '../../utils/colors';
 const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         width: 90,
         height: 90,
         borderRadius: 45,
-        // backgroundColor: COLOR_WHITE,
+        backgroundColor: COLOR_GRAY,
         alignItems: 'center',
         justifyContent: 'center',
 
@@ -94,6 +94,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginBottom: 8,
+    },
+    nameInitialText: {
+        color: COLOR_WHITE,
+        fontSize: 55,
     }
 });
 

@@ -21,7 +21,6 @@ import { cmsPagesFetchFailure, cmsPagesFetchSuccess, fetchCMSPages } from '../re
 export function* categoriesSaga(action: PayloadAction) {
     try {
         const response: ICategoryResponse = yield call(ContentService.fetchCategories);
-        console.log('response---22-', JSON.stringify(response));
         if(response.message === 'invalid token') {
             yield setLoginStatus('');
             yield put(categoriesFetchFailure(response.message));

@@ -1,8 +1,8 @@
-import {configureStore} from '@reduxjs/toolkit';
+import {configureStore, AnyAction, Reducer} from '@reduxjs/toolkit';
 import createSagaMiddleware from '@redux-saga/core';
 import storage from 'redux-persist/lib/storage';
-import { persistReducer, persistStore } from 'redux-persist';
-import { combineReducers } from 'redux';
+import {persistReducer, persistStore} from 'redux-persist';
+import {combineReducers} from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //Root Saga
 import {rootSaga} from '../sagas';
@@ -23,38 +23,46 @@ import CategoryVideosSlice from './slices/CategoryVideosSlice';
 import CMSSlice from './slices/CMSSlice';
 
 const persistConfig = {
-    key: 'root',
-    storage: AsyncStorage,
-}
+  key: 'root',
+  storage: AsyncStorage,
+};
 
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
 
-const rootReducer = combineReducers({
-    Signin: SigninSlice,
-    Signup: SignupSlice,
-    Categories: CategoriesSlice,
-    Category: CategorySlice,
-    Videos: VideosSlice,
-    video: VideoSlice,
-    Message: MessageSlice,
-    Profile: ProfileSlice,
-    Banners: BannerSlice,
-    Notification: NotificationSlice,
-    SearchVideo: SearchVideoSlice,
-    CategoryVideos: CategoryVideosSlice,
-    CMS: CMSSlice,
+const appReducer = combineReducers({
+  Signin: SigninSlice,
+  Signup: SignupSlice,
+  Categories: CategoriesSlice,
+  Category: CategorySlice,
+  Videos: VideosSlice,
+  video: VideoSlice,
+  Message: MessageSlice,
+  Profile: ProfileSlice,
+  Banners: BannerSlice,
+  Notification: NotificationSlice,
+  SearchVideo: SearchVideoSlice,
+  CategoryVideos: CategoryVideosSlice,
+  CMS: CMSSlice,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
+  if (action.type === 'SigninSlice/logout') {
+    AsyncStorage.removeItem('persist:root');
+    state = {} as RootState;
+  }
+  return appReducer(state, action);
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware({
-            serializableCheck: false
-        }).concat(middleware);
-    }
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware => {
+    return getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(middleware);
+  },
 });
 
 export const persistor = persistStore(store);

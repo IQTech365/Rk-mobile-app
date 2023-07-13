@@ -42,10 +42,13 @@ export const SigninSlice = createSlice({
             state.success = false;
             state.failure = false;
             state.error = null;
+        },
+        logout: (state, action: PayloadAction) => {
+            //READ_ME: keeping it empty to purge the state on logout
         }
     }
 });
 
 export default SigninSlice.reducer;
 
-export const {signinRequest, signinSuccess, signinFailure, resetSigin} = SigninSlice.actions;
+export const {signinRequest, signinSuccess, signinFailure, resetSigin, logout} = SigninSlice.actions;

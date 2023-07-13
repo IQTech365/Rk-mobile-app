@@ -1,15 +1,21 @@
 import {AxiosResponse} from 'axios';
 import {Api} from '../http/Api';
 import {PROFILE, SEND_MESSAGE, UPDATE_PROFILE, UPDATE_USER} from '../http/Endpoint';
-import { IProfileResponse } from '../interface/profile/IProfileResponse';
-import { IProfileUpdateRequest } from '../interface/profile/IProfileUpdateRequest';
-import { IProfileUpdateResponse } from '../interface/profile/IProfileUpdateResponse';
+import { IProfile, IProfileResponse, IProfileUpdateResponse, TProfile } from '../interface/profile/IProfileResponse';
 import { IUser, IUserResponse, TUser } from '../interface/user/IUser';
 
 // **** Message Api's ****
-export const updateProfile = async (payload: IProfileUpdateRequest): Promise<any> => {
+export const updateProfile = async (payload: Partial<IProfile>): Promise<any> => {
     const api = Api.getInstance();
-    return await api.post<IProfileUpdateRequest, AxiosResponse<IProfileUpdateResponse>>(payload, UPDATE_PROFILE);
+    const requestPayload: TProfile = {
+        mobile: payload.mobile as string, 
+        pincode: payload.pincode as string, 
+        state: payload.state as string, 
+        city: payload.city as string, 
+        address: payload.address as string,
+    };
+    console.log('requestPayload----', JSON.stringify(requestPayload));
+    return await api.update<TProfile, AxiosResponse<IProfileUpdateResponse>>(requestPayload, UPDATE_PROFILE(payload.userId));
 }
 
 export const fetchProfile = async (userId: string): Promise<IProfileResponse> => {

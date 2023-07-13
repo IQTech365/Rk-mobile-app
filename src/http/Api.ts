@@ -30,6 +30,7 @@ export class Api extends HttpClient {
 
   // ** PATCH **
   public update = async <T, R>(data: T, uri: string): Promise<R> => {
+    console.log('uri--------', uri);
     return this.instance.patch<T, AxiosResponse<R>>(uri, data);
   }
 }

@@ -52,6 +52,7 @@ const TabBar = ({state, descriptors, navigation}: any) => {
                         accessibilityLabel={options.tabBarAccessibilityLabel}
                         testID={options.tabBarTestID}
                         onPress={onPress}
+                        key={`${index}`}
                     >
                         <View style={styles.tab} >
                             {isFocused ? <ActiveTabBackground width={50} height={50} /> : <View style={{width: 50, height: 50}} />}

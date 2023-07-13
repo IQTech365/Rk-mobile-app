@@ -7,6 +7,7 @@ import styles from './style';
 export enum STATUS_CODE {
     SUCCESS = 'success',
     ERROR = 'error',
+    NONE = 'none',
 }
 
 interface IAlertProps {
