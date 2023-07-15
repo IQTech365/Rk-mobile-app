@@ -34,11 +34,11 @@ export const AuthProvider: React.FC<{children: ReactElement}> = ({
     setLoading(true);
     const loginStatus = await getLoginStatus();
     const subscriptionStatus = await getSubscribed();
-    console.log('loginStatus----', loginStatus);
-    console.log('subscriptionStatus----', subscriptionStatus);
     
     if(subscriptionStatus && subscriptionStatus === 'subscribe') {
       setIsSubscribed(true);
+    } else {
+      setIsSubscribed(false);
     }
 
     if (loginStatus && loginStatus === 'login') {

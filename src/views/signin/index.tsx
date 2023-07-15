@@ -16,7 +16,7 @@ import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {ISigninRequest} from '../../interface/signin/ISigninRequest';
 import {resetSigin, signinRequest} from '../../redux/slices/SigninSlice';
 import {Validator} from '../../utils/validation';
-import {setAuthToken, setLoginStatus, setSubscribed} from '../../utils/storage';
+import {removeSubscribed, setAuthToken, setLoginStatus, setSubscribed} from '../../utils/storage';
 import {useAuthContext} from '../../provider/AuthProvider';
 import Alert, {STATUS_CODE} from '../../common/Alert';
 import {useNetInfo} from "@react-native-community/netinfo";
@@ -32,6 +32,7 @@ const SignInPageView = (props: any) => {
   const {requesting, success, error, user} = useAppSelector(
     state => state.Signin,
   );
+  
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [siginError, setSigninError] = useState<boolean>(false);
@@ -63,7 +64,6 @@ const SignInPageView = (props: any) => {
   }, []);
 
   const _handleSigninSuccess = async () => {
-    console.log('token----', user?.token);
     if (user?.code === 404 || user?.code === 201) {
       setSigninError(true);
     } else {
@@ -71,6 +71,8 @@ const SignInPageView = (props: any) => {
       await setLoginStatus('login');
       if(user?.data.isSubscribed) {
         await setSubscribed('subscribe');
+      } else {
+        await removeSubscribed();
       }
       setLoggedIn(true);
     }

@@ -5,7 +5,7 @@ import Button from '../../common/Button';
 import Spacer from '../../common/Spacer';
 import ProfileBackgroundImage from '../../images/icons/profile-bg.svg';
 import AvoidSoftInputViewHOC from '../../common/AvoidSoftInputViewHOC';
-import {removeLoginStatus, removeToken} from '../../utils/storage';
+import {removeLoginStatus, removeSubscribed, removeToken} from '../../utils/storage';
 import {useAuthContext} from '../../provider/AuthProvider';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import ChatInput from '../../common/ChatInput';
@@ -22,7 +22,7 @@ import {useNetInfo} from '@react-native-community/netinfo';
 import NoNetworkView from '../../common/NoNetwork';
 import {IProfile} from '../../interface/profile/IProfileResponse';
 import Alert, {STATUS_CODE} from '../../common/Alert';
-import { logout } from '../../redux/slices/SigninSlice';
+import {logout} from '../../redux/slices/SigninSlice';
 
 const {width} = Dimensions.get('window');
 
@@ -31,7 +31,7 @@ interface IProfilePageProps {
 }
 
 const ProfilePageView: React.FC<IProfilePageProps> = ({navigation}) => {
-  const {setLoggedIn} = useAuthContext();
+  const {setLoggedIn, setIsSubscribed} = useAuthContext();
   const dispatch = useAppDispatch();
   const netInfo = useNetInfo();
   const {user} = useAppSelector(state => state.Signin);
@@ -54,11 +54,11 @@ const ProfilePageView: React.FC<IProfilePageProps> = ({navigation}) => {
   const [alertType, setAlertType] = useState<STATUS_CODE>(STATUS_CODE.NONE);
   const [alertMessage, setAlertMessage] = useState<string>('');
 
-  // console.log('profileData----', JSON.stringify(profileData));
-
   const handleLogout = async () => {
     await removeLoginStatus();
     await removeToken();
+    await removeSubscribed();
+    setIsSubscribed(false);
     setLoggedIn(false);
     dispatch(logout());
   };
@@ -72,8 +72,6 @@ const ProfilePageView: React.FC<IProfilePageProps> = ({navigation}) => {
       address,
       userId: user?.data.id,
     };
-    // console.log('user-data-to-update----', JSON.stringify(dataToUpdate));
-
     dispatch(updateProfile(dataToUpdate));
   };
 
@@ -167,7 +165,9 @@ const ProfilePageView: React.FC<IProfilePageProps> = ({navigation}) => {
             <View style={styles.avatar}>
               {/* <Image source={AvatarIcon} style={styles.avatarImage} /> */}
               <View style={styles.avatarImage}>
-              <Text style={styles.nameInitialText}>{user?.data.username.charAt(0)}</Text>
+                <Text style={styles.nameInitialText}>
+                  {user?.data.username.charAt(0)}
+                </Text>
               </View>
             </View>
           </View>
