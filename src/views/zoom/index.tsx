@@ -6,6 +6,7 @@ import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import ZoomLinkCard from './components/ZoomLinkCard';
 import styles from './style';
 import { fetchProfile } from '../../redux/slices/ProfileSlice';
+import NoDataView from '../../common/NoData';
 
 const ZoomPageView = (props:any) => {
   const {user} = useAppSelector(state => state.Signin);
@@ -27,7 +28,7 @@ const ZoomPageView = (props:any) => {
   return (
     <View style={styles.container}>
       <Header2 canGoBack={false} title="Zoom Link" />
-      <ZoomLinkCard link="asfasdfasdfdsf" onPress={handleZoomLink} />
+      {profileData?.data?.zoomLink ? <ZoomLinkCard link={profileData?.data?.zoomLink} onPress={handleZoomLink} /> : <NoDataView  />}
     </View>
   );
 };
