@@ -21,6 +21,9 @@ import NotificationSlice from './slices/NotificationSlice';
 import SearchVideoSlice from './slices/SearchVideoSlice';
 import CategoryVideosSlice from './slices/CategoryVideosSlice';
 import CMSSlice from './slices/CMSSlice';
+import ForgetPasswordSlice from './slices/ForgetPasswordSlice';
+import ChangePasswordSlice from './slices/changePasswordSlice';
+import QrimageSlice from './slices/QRimageSlice';
 
 const persistConfig = {
   key: 'root',
@@ -44,6 +47,9 @@ const appReducer = combineReducers({
   SearchVideo: SearchVideoSlice,
   CategoryVideos: CategoryVideosSlice,
   CMS: CMSSlice,
+  ForgetPassword: ForgetPasswordSlice,
+  ChangePassword: ChangePasswordSlice,
+  Qrimage: QrimageSlice,
 });
 
 const rootReducer: Reducer = (state: RootState, action: AnyAction) => {

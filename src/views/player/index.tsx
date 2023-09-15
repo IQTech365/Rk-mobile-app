@@ -1,5 +1,5 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {createRef, useEffect, useState} from 'react';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { createRef, useEffect, useState } from 'react';
 import Video from 'react-native-video';
 import {
   StatusBar,
@@ -7,19 +7,19 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
-import {IVideo} from '../../interface/home/IVideoResponse';
-import {HomeStackParamList} from '../../navigation/params/HomeStackParamList';
+import { IVideo } from '../../interface/home/IVideoResponse';
+import { HomeStackParamList } from '../../navigation/params/HomeStackParamList';
 import styles from './style';
 import Orientation from 'react-native-orientation-locker';
 import ExitFullScreenIcon from '../../images/icons/exit-full-screen.svg';
 import FullScreenIcon from '../../images/icons/full-screen.svg';
 import CloseIcon from '../../images/icons/close.svg';
-import {PlayerControls} from './components/VideoControls';
-import {ProgressBar} from './components/ProgressBar';
+import { PlayerControls } from './components/VideoControls';
+import { ProgressBar } from './components/ProgressBar';
 
 type Props = NativeStackScreenProps<HomeStackParamList, 'Player'>;
 
-const Player: React.FC<Props> = ({route, navigation}) => {
+const Player: React.FC<Props> = ({ route, navigation }) => {
   const item: IVideo | undefined = route.params?.item;
   const playerRef = createRef();
   const [fullScreen, setFullScreen] = useState<boolean>(false);
@@ -121,7 +121,7 @@ const Player: React.FC<Props> = ({route, navigation}) => {
             // source={{
             //   uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
             // }}
-            source={{uri: item?.videoURL}}
+            source={{ uri: item?.videoURL }}
             style={fullScreen ? styles.fullscreenVideo : styles.video}
             controls={false}
             resizeMode={'contain'}
@@ -135,13 +135,13 @@ const Player: React.FC<Props> = ({route, navigation}) => {
               <View style={styles.fullscreenButton}>
                 <TouchableOpacity
                   onPress={handleClose}
-                  hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                 >
                   <CloseIcon width={32} height={32} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={handleFullScreen}
-                  hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                 >
                   {fullScreen ? (
                     <ExitFullScreenIcon width={32} height={32} />

@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import AvoidSoftInputViewHOC from '../../common/AvoidSoftInputViewHOC';
 import LabelCircle from '../../common/LabelCircle';
 import styles from './styles';
@@ -8,31 +8,31 @@ import UserIcon from '../../images/icons/user2.svg';
 import LockIcon from '../../images/icons/lock.svg';
 
 import Button from '../../common/Button';
-import Input, {INPUT_VALIDATION_TYPE} from '../../common/Input';
+import Input, { INPUT_VALIDATION_TYPE } from '../../common/Input';
 import Spacer from '../../common/Spacer';
-import {AuthStackRoute} from '../../utils/constants';
+import { AuthStackRoute } from '../../utils/constants';
 import Spinner from '../../common/Spinner';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {ISigninRequest} from '../../interface/signin/ISigninRequest';
-import {resetSigin, signinRequest} from '../../redux/slices/SigninSlice';
-import {Validator} from '../../utils/validation';
-import {removeSubscribed, setAuthToken, setLoginStatus, setSubscribed} from '../../utils/storage';
-import {useAuthContext} from '../../provider/AuthProvider';
-import Alert, {STATUS_CODE} from '../../common/Alert';
-import {useNetInfo} from "@react-native-community/netinfo";
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { ISigninRequest } from '../../interface/signin/ISigninRequest';
+import { resetSigin, signinRequest } from '../../redux/slices/SigninSlice';
+import { Validator } from '../../utils/validation';
+import { removeSubscribed, setAuthToken, setLoginStatus, setSubscribed } from '../../utils/storage';
+import { useAuthContext } from '../../provider/AuthProvider';
+import Alert, { STATUS_CODE } from '../../common/Alert';
+import { useNetInfo } from "@react-native-community/netinfo";
 import NoNetworkView from '../../common/NoNetwork';
 
 const SignInPageView = (props: any) => {
-  const {navigation} = props;
+  const { navigation } = props;
   const dispatch = useAppDispatch();
   const authContext = useAuthContext();
   const netInfo = useNetInfo();
 
-  const {setLoggedIn} = authContext;
-  const {requesting, success, error, user} = useAppSelector(
+  const { setLoggedIn } = authContext;
+  const { requesting, success, error, user } = useAppSelector(
     state => state.Signin,
   );
-  
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [siginError, setSigninError] = useState<boolean>(false);
@@ -54,7 +54,8 @@ const SignInPageView = (props: any) => {
       email: email,
       password: password,
     };
-    if(netInfo.isConnected) {
+    if (netInfo.isConnected) {
+
       dispatch(signinRequest(payload));
     }
   }, [email, password]);
@@ -69,7 +70,7 @@ const SignInPageView = (props: any) => {
     } else {
       await setAuthToken(user?.token as string);
       await setLoginStatus('login');
-      if(user?.data.isSubscribed) {
+      if (user?.data.isSubscribed) {
         await setSubscribed('subscribe');
       } else {
         await removeSubscribed();
@@ -139,7 +140,7 @@ const SignInPageView = (props: any) => {
           visible={siginError}
           variant={STATUS_CODE.ERROR}
         />
-        <NoNetworkView show={!netInfo.isConnected}/>
+        <NoNetworkView show={!netInfo.isConnected} />
       </View>
     </AvoidSoftInputViewHOC>
   );

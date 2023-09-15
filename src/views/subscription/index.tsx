@@ -1,28 +1,30 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { View, Text, Image, ScrollView } from 'react-native';
 import styles from './style';
 import LinearGradient from 'react-native-linear-gradient';
-import {Shadow} from 'react-native-shadow-2';
-import {COLOR_BLUE, SUBSCRIPTION_LINEARGRADIENT} from '../../utils/colors';
+import { Shadow } from 'react-native-shadow-2';
+import { COLOR_BLUE, SUBSCRIPTION_LINEARGRADIENT } from '../../utils/colors';
 import Spacer from '../../common/Spacer';
 import Button from '../../common/Button';
 import Header2 from '../../common/Header2';
 import RazorpayCheckout from 'react-native-razorpay';
-import Alert, {STATUS_CODE} from '../../common/Alert';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {IUser} from '../../interface/user/IUser';
-import {resetUpdateUser, updateUser} from '../../redux/slices/ProfileSlice';
+import Alert, { STATUS_CODE } from '../../common/Alert';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { IUser } from '../../interface/user/IUser';
+import { fetchProfile, resetUpdateUser, updateUser } from '../../redux/slices/ProfileSlice';
 import Spinner from '../../common/Spinner';
 import { HomeStackRoute } from '../../utils/constants';
 import { useAuthContext } from '../../provider/AuthProvider';
 import { setSubscribed } from '../../utils/storage';
+import { qrimageRequest } from '../../redux/slices/QRimageSlice';
 
-const SubscriptionView = (props:any) => {
-  const {navigation} = props;
+const SubscriptionView = (props: any) => {
+  const { navigation } = props;
   const [purchaseStatus, setPurchaseStatus] = useState<STATUS_CODE>(
     STATUS_CODE.SUCCESS,
   );
   const [visible, setVisisble] = useState<boolean>(false);
+  const [lastImageURL, setLastImageURL] = useState(null);
   const dispatch = useAppDispatch();
   const authContext = useAuthContext();
   const { setIsSubscribed } = authContext;
@@ -32,7 +34,17 @@ const SubscriptionView = (props:any) => {
     userInfoUpdateFailure,
     userInfoUpdateError,
   } = useAppSelector(state => state.Profile);
-  const {user} = useAppSelector(state => state.Signin);
+  const { qrImage, requesting } = useAppSelector(state => state.Qrimage);
+
+  const { user } = useAppSelector(state => state.Signin);
+  const {
+
+    profileData,
+
+  } = useAppSelector(state => state.Profile);
+
+  const lastObject = qrImage && qrImage[qrImage.length - 1];
+  const lastURL = lastObject ? lastObject.QRImageURL : null;
 
   const handleSubscribeNow = () => {
     const options = {
@@ -48,7 +60,7 @@ const SubscriptionView = (props:any) => {
         contact: '9711012243',
         name: 'Rakesh Yadav',
       },
-      theme: {color: COLOR_BLUE},
+      theme: { color: COLOR_BLUE },
     };
     RazorpayCheckout.open(options)
       .then((data: any) => {
@@ -62,6 +74,16 @@ const SubscriptionView = (props:any) => {
         setVisisble(true);
       });
   };
+  const handleEnter = useCallback(() => {
+    dispatch(fetchProfile(user?.data?.id as string));
+    if (profileData?.data?.isSubscribed == true) {
+      setPurchaseStatus(STATUS_CODE.SUCCESS);
+      setVisisble(true);
+    } else {
+      setPurchaseStatus(STATUS_CODE.ERROR);
+      setVisisble(true);
+    }
+  }, [profileData, user, dispatch]);
 
   const handleModal = () => {
     setVisisble(false);
@@ -76,6 +98,7 @@ const SubscriptionView = (props:any) => {
   };
 
   useEffect(() => {
+    dispatch(qrimageRequest());
     if (!userInfoUpdating && userInfoUpdateSuccess) {
       dispatch(resetUpdateUser());
       setIsSubscribed(true);
@@ -84,7 +107,16 @@ const SubscriptionView = (props:any) => {
     } else if (!userInfoUpdating && userInfoUpdateFailure) {
       dispatch(resetUpdateUser());
     }
-  }, [userInfoUpdating, userInfoUpdateSuccess, userInfoUpdateFailure]);
+    // dispatch(qrimageRequest());
+
+
+    // setLastImageURL(lastURL);
+  }, [
+    userInfoUpdating,
+    userInfoUpdateSuccess,
+    userInfoUpdateFailure,
+    dispatch,
+  ]);
 
   // const handleBackPress = () => {
   //   navigation.goBack();
@@ -96,11 +128,26 @@ const SubscriptionView = (props:any) => {
 
   return (
     <View style={styles.container}>
-      <Header2
-        title="Subscription"
-        canGoBack={false}
-      />
+      <Header2 title="Subscription" canGoBack={false} />
+
       <Spacer height={10} />
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        {lastURL ? (
+          <Image
+            source={{
+              uri: lastURL,
+            }}
+            style={{ width: 280, height: '100%' }}
+          />
+        ) : null}
+
+      </ScrollView>
+      <Button
+        text="Enter"
+        onPress={handleEnter}
+        style={styles.buttonStyle}
+        textStyle={styles.buttonText}
+      />
       {/* <View style={styles.skipContainer}>
         <Button
           text="Skip"
@@ -111,7 +158,7 @@ const SubscriptionView = (props:any) => {
       </View> */}
       <Spacer height={30} />
       <Shadow distance={8}>
-        <View style={styles.cardContainer}>
+        {/* <View style={styles.cardContainer}>
           <LinearGradient
             colors={SUBSCRIPTION_LINEARGRADIENT}
             style={styles.topContainer}
@@ -147,10 +194,11 @@ const SubscriptionView = (props:any) => {
               />
             </View>
           </View>
-        </View>
+        </View> */}
       </Shadow>
+
       <Alert variant={purchaseStatus} onPress={handleModal} visible={visible} />
-      <Spinner show={userInfoUpdating} />
+      <Spinner show={requesting} />
     </View>
   );
 };

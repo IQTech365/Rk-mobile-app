@@ -13,6 +13,7 @@ const AuthStackRoute = {
   SignIn: 'SignIn',
   SignUp: 'SignUp',
   ForgotPassword: 'ForgotPassword',
+  ChangePassword: 'ChangePassword',
   Intro: 'Intro',
 }
 const HomeStackRoute = {

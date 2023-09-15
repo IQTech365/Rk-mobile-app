@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     input: {
         width: '100%',
         height: 44,
+        color:'black'
     },
     error: {
         color: COLOR_ERROR,
