@@ -1,5 +1,5 @@
-import React, {useCallback, useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import React, { useCallback, useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import AvoidSoftInputViewHOC from '../../common/AvoidSoftInputViewHOC';
 import LabelCircle from '../../common/LabelCircle';
 import styles from './styles';
@@ -7,6 +7,7 @@ import LogoIcon from '../../images/icons/logo.svg';
 import UserIcon from '../../images/icons/user2.svg';
 import LockIcon from '../../images/icons/lock.svg';
 import EmailIcon from '../../images/icons/email.svg';
+import MobileIcon from '../../images/icons/mobile.svg';
 
 import Button from '../../common/Button';
 import Input, { INPUT_VALIDATION_TYPE } from '../../common/Input';
@@ -17,17 +18,18 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ISignupRequest } from '../../interface/signup/ISignupRequest';
 import { signupRequest } from '../../redux/slices/SignupSlice';
 import { Validator } from '../../utils/validation';
-import {useNetInfo} from "@react-native-community/netinfo";
+import { useNetInfo } from '@react-native-community/netinfo';
 import NoNetworkView from '../../common/NoNetwork';
 
 const SignUpPageView = (props: any) => {
-  const {navigation} = props;
+  const { navigation } = props;
   const dispatch = useAppDispatch();
-  const {success, error, requesting} = useAppSelector(state => state.Signup);
-  
+  const { success, error, requesting } = useAppSelector(state => state.Signup);
+
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [mobile, setMobile] = useState<string>('');
   const netInfo = useNetInfo();
 
   const onChangeUsernameText = (text: string) => {
@@ -42,28 +44,36 @@ const SignUpPageView = (props: any) => {
     setPassword(text);
   };
 
+  const onChangeMobileText = (text: string) => {
+    setMobile(text);
+  };
+
   const onSignUpPress = useCallback(() => {
     const payload: ISignupRequest = {
       username: username,
       password: password,
       email: email,
-    }
-    if(netInfo.isConnected) {
+      mobile: mobile,
+    };
+    if (netInfo.isConnected) {
       dispatch(signupRequest(payload));
     }
-  }, [username, email, password]);
+  }, [username, email, password, mobile]);
 
   const onSignInPress = useCallback(() => {
     navigation.navigate(AuthStackRoute.SignIn);
   }, []);
 
   useEffect(() => {
-    if(!requesting && success && !error) {
+    if (!requesting && success && !error) {
       navigation.navigate(AuthStackRoute.SignIn);
     }
-  }, [success, requesting ,error]);
+  }, [success, requesting, error]);
 
-  const disableButton = Validator.isEmpty(username) || !Validator.emailRegex(email) || Validator.isEmpty(password);
+  const disableButton =
+    Validator.isEmpty(username) ||
+    !Validator.emailRegex(email) ||
+    Validator.isEmpty(password);
 
   return (
     <AvoidSoftInputViewHOC>
@@ -95,8 +105,20 @@ const SignUpPageView = (props: any) => {
           required={true}
           validationType={INPUT_VALIDATION_TYPE.TEXT} //TODO: Change validation type later for password
         />
+        <Spacer />
+        <Input
+          icon={<MobileIcon width={20} height={20} />}
+          placeholder="Mobile"
+          onChangeText={onChangeMobileText}
+          required={true}
+          validationType={INPUT_VALIDATION_TYPE.TEXT} //TODO: Change validation type later for password
+        />
         <Spacer height={50} />
-        <Button text="SIGNUP" onPress={onSignUpPress} disabled={disableButton} />
+        <Button
+          text="SIGNUP"
+          onPress={onSignUpPress}
+          disabled={disableButton}
+        />
         <Spacer height={50} />
         <View style={styles.signupContainer}>
           <Text style={styles.dontHaveAccount}>You have an account?</Text>
@@ -105,7 +127,7 @@ const SignUpPageView = (props: any) => {
           </TouchableOpacity>
         </View>
         <Spinner show={requesting} />
-        <NoNetworkView show={!netInfo.isConnected}/>
+        <NoNetworkView show={!netInfo.isConnected} />
       </View>
     </AvoidSoftInputViewHOC>
   );

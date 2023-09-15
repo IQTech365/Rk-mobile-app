@@ -7,6 +7,9 @@ import { watcherContentSaga } from './ContentSaga';
 import { watcherMessageSaga } from './MessageSaga';
 import { watcherProfileSaga } from './ProfileSaga';
 import { watcherNotificationSaga } from './NotificationSaga';
+import { watcherForgetPasswordSaga } from './ForgetPasswordSaga';
+import { watcherChangePasswordSaga } from './ChangePasswordSaga';
+import { watcherQRimageSaga } from './QRimageSaga';
 
 export function* rootSaga() {
     yield all([
@@ -16,5 +19,8 @@ export function* rootSaga() {
         fork(watcherMessageSaga),
         fork(watcherProfileSaga),
         fork(watcherNotificationSaga),
+        fork(watcherForgetPasswordSaga),
+        fork(watcherChangePasswordSaga),
+        fork(watcherQRimageSaga),
     ])
 }

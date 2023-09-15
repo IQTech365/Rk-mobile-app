@@ -15,9 +15,9 @@ interface IHomeStackNavigatorProps {
     isSubscribed: boolean;
 }
 
-const HomeStackNavigator:React.FC<IHomeStackNavigatorProps> = ({isSubscribed}) => {
+const HomeStackNavigator: React.FC<IHomeStackNavigatorProps> = ({ isSubscribed }) => {
     return (
-        <HomeStack.Navigator screenOptions={{headerShown: false}} initialRouteName={isSubscribed ? 'Home': 'Subscription'} >
+        <HomeStack.Navigator screenOptions={{ headerShown: false }} initialRouteName={isSubscribed ? 'Home' : 'Subscription'} >
             <HomeStack.Screen name="Subscription" component={SubscriptionView} />
             <HomeStack.Screen name="Home" component={TabNavigator} />
             <HomeStack.Screen name="Player" component={Player} />

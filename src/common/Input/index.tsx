@@ -1,6 +1,6 @@
-import React, {ReactElement, useState} from 'react';
-import {View, TextInput, Text} from 'react-native';
-import {Validator} from '../../utils/validation';
+import React, { ReactElement, useState } from 'react';
+import { View, TextInput, Text } from 'react-native';
+import { Validator } from '../../utils/validation';
 import styles from './styles';
 
 interface InputProps {

@@ -1,5 +1,7 @@
 export const SIGNIN = `/users/login`;
 export const SIGNUP = `/users/register`;
+export const FORGETPWD = `/users/forgot-password`;
+export const CHANGEPWD = `/users/change-password`;
 export const BANNER = `/banner/read`;
 export const CATEGORIES = `/video/read/categoryWiseVideos`;
 export const CATEGORY = (id) => `/category/read/${id}`;
@@ -14,4 +16,5 @@ export const CMS_PAGE = (pageId) => `/cms/read/${pageId}`;
 export const UPDATE_PROFILE = (userId) => `/users/${userId}`;
 export const PROFILE = (userId) => `/users/read/${userId}`;
 export const UPDATE_USER = (userId) => `/users/${userId}`;
+export const QR_READ = `/qr/read`;
 export const NOTIFICATION = ``;
